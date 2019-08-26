@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\10784099\\Desktop\\School\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB.csproj": {}
+    "C:\\Users\\10784099\\Desktop\\School\\CS6510\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB.csproj": {}
   },
   "projects": {
-    "C:\\Users\\10784099\\Desktop\\School\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB.csproj": {
+    "C:\\Users\\10784099\\Desktop\\School\\CS6510\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\10784099\\Desktop\\School\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB.csproj",
+        "projectUniqueName": "C:\\Users\\10784099\\Desktop\\School\\CS6510\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB.csproj",
         "projectName": "CS6510_VirtualMachine_SJB",
-        "projectPath": "C:\\Users\\10784099\\Desktop\\School\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB.csproj",
+        "projectPath": "C:\\Users\\10784099\\Desktop\\School\\CS6510\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB.csproj",
         "packagesPath": "C:\\Users\\10784099\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\10784099\\Desktop\\School\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\obj\\",
+        "outputPath": "C:\\Users\\10784099\\Desktop\\School\\CS6510\\CS6510_VirtualMachine_SJB\\CS6510_VirtualMachine_SJB\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
