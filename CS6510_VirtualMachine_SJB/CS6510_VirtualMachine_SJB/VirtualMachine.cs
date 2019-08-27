@@ -7,11 +7,22 @@ namespace CS6510_VirtualMachine_SJB
     class VirtualMachine
     {
         public SortedDictionary<string, int> REG = new SortedDictionary<string, int>();
+        public int[] registers;
         public  byte[] MEM = new byte[10000];
-        public int PC = 0;
-        public int loaderAddress = 0;
+        public int PC;
+        public int loaderAddress;
+        public int fetchAddr;
+        public int dataAddr;
+        public int datAddr;
+        public int instructionPC;
         public VirtualMachine()
         {
+            PC = 0;
+            loaderAddress = 0;
+            fetchAddr = 0;
+            dataAddr = 0;
+            datAddr = 0;
+            instructionPC = 0;
             REG.Add("R0", 0);
             REG.Add("R1", 0);
             REG.Add("R2", 0);

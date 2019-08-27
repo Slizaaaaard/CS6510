@@ -28,9 +28,9 @@ namespace CS6510_VirtualMachine_SJB
                     int bSize = br.ReadInt32();
                     VM.PC = br.ReadInt32();
                     VM.loaderAddress = br.ReadInt32();
-                    int fetchAddr = VM.loaderAddress;
-                    int dataAddr = VM.loaderAddress;
-                    int datAddr = VM.loaderAddress;
+                    VM.fetchAddr = VM.loaderAddress;
+                    VM.dataAddr = VM.loaderAddress;
+                    VM.datAddr = VM.loaderAddress;  
                     Console.WriteLine(bSize);
                     Console.WriteLine(VM.PC);
                     Console.WriteLine(VM.loaderAddress);
@@ -91,7 +91,45 @@ namespace CS6510_VirtualMachine_SJB
         }
         static void executeProgram()
         {
-
+            VM.dataAddr = VM.datAddr;
+            for(int i = VM.fetchAddr; i < VM.fetchAddr+VM.instructionPC; i++)
+            {
+                int instruction = VM.MEM[i++];
+                int destination;
+                int source_1;
+                int source_2;
+                switch (instruction)
+                {
+                    case (byte)AssemblyInstruction.ADD:
+                        destination = (int)VM.MEM[i++];
+                        source_1 = (int)VM.MEM[i++];
+                        source_2 = (int)VM.MEM[i++];
+                        VM.registers[destination] = VM.registers[source_1] + VM.registers[source_2];
+                        i--;
+                        break;
+                    case (byte)AssemblyInstruction.SUB:
+                        destination = (int)VM.MEM[i++];
+                        source_1 = (int)VM.MEM[i++];
+                        source_2 = (int)VM.MEM[i++];
+                        VM.registers[destination] = VM.registers[source_1] - VM.registers[source_2];
+                        i--;
+                        break;
+                    case (byte)AssemblyInstruction.MUL:
+                        destination = (int)VM.MEM[i++];
+                        source_1 = (int)VM.MEM[i++];
+                        source_2 = (int)VM.MEM[i++];
+                        VM.registers[destination] = VM.registers[source_1] * VM.registers[source_2];
+                        i--;
+                        break;
+                    case (byte)AssemblyInstruction.DIV:
+                        destination = (int)VM.MEM[i++];
+                        source_1 = (int)VM.MEM[i++];
+                        source_2 = (int)VM.MEM[i++];
+                        VM.registers[destination] = VM.registers[source_1] / VM.registers[source_2];
+                        i--;
+                        break;
+                }
+            }
         }
     }
 }
