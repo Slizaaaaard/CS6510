@@ -7,7 +7,7 @@ namespace CS6510_VirtualMachine_SJB
     class VirtualMachine
     {
         public SortedDictionary<string, int> REG = new SortedDictionary<string, int>();
-        public int[] registers;
+        public int[] registers= {1, 2 ,3 ,4 ,5 ,6 ,7 ,8 };
         public  byte[] MEM = new byte[10000];
         public int PC;
         public int loaderAddress;

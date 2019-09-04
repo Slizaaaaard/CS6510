@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CS6510_VirtualMachine_SJB.Program">
+    <Position X="0.5" Y="1.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAACAAAEACAAACAAAAAAAAgAABAAAAFA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CS6510_VirtualMachine_SJB.VirtualMachine">
+    <Position X="4.25" Y="1.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAIYAAAAAEAAAAAAABAIAAAQAAAAAAAAQ=</HashCode>
+      <FileName>VirtualMachine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="CS6510_VirtualMachine_SJB.AssemblyInstruction">
+    <Position X="8" Y="0.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>CAACAAAQBASAAYQAAEAAAAAAAUlIAAAAgAAAAAEAoQA=</HashCode>
+      <FileName>AssemblyInstructionEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

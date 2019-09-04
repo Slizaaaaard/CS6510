@@ -27,7 +27,6 @@ namespace CS6510_VirtualMachine_SJB
         AND = 13,
         ORR = 14,
         EOR = 15, 
-        SWI = 20,
-        sixtyNine = 69
+        SWI = 20
     }
 }
