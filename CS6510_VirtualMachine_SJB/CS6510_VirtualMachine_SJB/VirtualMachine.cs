@@ -15,6 +15,7 @@ namespace CS6510_VirtualMachine_SJB
         public int dataAddr;
         public int datAddr;
         public int instructionPC;
+        public int clock;
         public VirtualMachine()
         {
             PC = 0;

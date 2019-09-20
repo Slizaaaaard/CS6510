@@ -3,23 +3,23 @@
   <Class Name="CS6510_VirtualMachine_SJB.Program">
     <Position X="0.5" Y="1.5" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAACAAAEACAAACAAAAAAAAgAABAAAAFA=</HashCode>
+      <HashCode>AAAAEAAAAAAAAAiAAAEICICACAAAAAAAAgAABAAAAFA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CS6510_VirtualMachine_SJB.VirtualMachine">
-    <Position X="4.25" Y="1.5" Width="3.75" />
+    <Position X="5.5" Y="1.75" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAAIYAAAAAEAAAAAAABAIAAAQAAAAAAAAQ=</HashCode>
+      <HashCode>AAAIAAAAAAAAIYAAAAAEAAAAAAABAIAAAQACAAAAAAQ=</HashCode>
       <FileName>VirtualMachine.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="CS6510_VirtualMachine_SJB.AssemblyInstruction">
-    <Position X="8" Y="0.75" Width="3.75" />
+  <Class Name="CS6510_VirtualMachine_SJB.ProcessControlBlock">
+    <Position X="10.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAACAAAQBASAAYQAAEAAAAAAAUlIAAAAgAAAAAEAoQA=</HashCode>
-      <FileName>AssemblyInstructionEnum.cs</FileName>
+      <HashCode>AAQAAAAAAQAAIABAAAAAAAAAAAgAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>ProcessControlBlock.cs</FileName>
     </TypeIdentifier>
-  </Enum>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

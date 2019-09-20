@@ -9,11 +9,17 @@ namespace CS6510_VirtualMachine_SJB
         static bool shell;
         static string shellString;
         static string errors;
+        static string[] readyQueue;
+        static string[] jobQueue;
+        static string[] IOQueue;
+        static int timeIn = 0;
+
         static void Main(string[] args)
         {
 
             do
             {
+
                 if (shell == true)
                 {
                     Console.Write("MYVM->");
@@ -78,7 +84,31 @@ namespace CS6510_VirtualMachine_SJB
                             Console.WriteLine(VM.MEM[i]);
                         }
                     }
-                 
+                }
+
+                if (shellString.Contains("execute"))
+                {
+                    if (shellString.Contains("-v"))
+                    {
+                        //Removes Execute
+                        shellString = shellString.Remove(0, 7);
+                        shellString = shellString.Trim();
+                        //Removes Verbose
+                        shellString = shellString.Remove(0, 2);
+                        shellString = shellString.Trim();
+                        // check for space here
+                        if (shellString.IndexOf(' ') != -1)
+                        {
+                            // separates time in value from file name
+                            int.TryParse(shellString.Substring(shellString.IndexOf(' ') + 1), out timeIn);
+                            int i = (shellString.IndexOf(' ') + 1);
+                            shellString = shellString.Substring(0, i);
+                        }
+                        Console.WriteLine($"Execute {shellString}");
+                        Console.WriteLine($"Time in {timeIn}");
+                        loadProgram(shellString);
+                        executeProgram();
+                    }
                 }
 
                 if (shellString.Contains("errordump"))
@@ -100,6 +130,8 @@ namespace CS6510_VirtualMachine_SJB
                    
                     }
                 }
+
+                VM.clock++;
 
                 if (shellString == "stop")
                 {
