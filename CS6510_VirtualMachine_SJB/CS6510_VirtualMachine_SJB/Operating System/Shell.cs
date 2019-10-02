@@ -152,7 +152,7 @@ namespace CS6510_VirtualMachine_SJB
                             Console.WriteLine($"\nExecute Program {input}");
                             Console.WriteLine($"Time in {timeIn}");
                             pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == input).Key;
-                            Execute.executeProgram(VM, pidTemp);
+                            .executeProgram(VM, pidTemp);
                         }
                     }
 
