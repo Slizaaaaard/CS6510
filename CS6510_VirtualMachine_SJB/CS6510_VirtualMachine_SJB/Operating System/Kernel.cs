@@ -3,9 +3,10 @@ using System.IO;
 using System.Text;
 namespace CS6510_VirtualMachine_SJB
 {
-    class Program
+    class Kernel
     {
         static VirtualMachine VM = new VirtualMachine();
+        static FiveProcess FP = new FiveProcess();
         static void Main(string[] args)
         {
             do

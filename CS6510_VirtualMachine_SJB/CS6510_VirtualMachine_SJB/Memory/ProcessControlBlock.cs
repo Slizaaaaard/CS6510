@@ -14,6 +14,9 @@ namespace CS6510_VirtualMachine_SJB
         public string programFileName;
         public int processState;
         public int PC;
+        public bool parent = false;
+        public bool child = false;
+
 
     }
 }

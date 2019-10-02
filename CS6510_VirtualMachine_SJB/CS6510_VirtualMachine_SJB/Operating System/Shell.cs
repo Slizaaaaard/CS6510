@@ -13,6 +13,15 @@ namespace CS6510_VirtualMachine_SJB
         static string shellString;
         static int timeIn = 0;
         static int pidTemp;
+
+        internal static Kernel Kernel
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public static bool shellCommand(VirtualMachine VM)
         {
             if (shell == true)
@@ -44,7 +53,7 @@ namespace CS6510_VirtualMachine_SJB
                     shellString = shellString.Trim();
                     shellString = shellString.Remove(0, 2);
                     shellString = shellString.Trim();
-                    MemoryManagement.loadProgram(VM, shellString);
+                    Load.loadProgram(VM, shellString);
                 }
 
             }
@@ -58,8 +67,8 @@ namespace CS6510_VirtualMachine_SJB
                     shellString = shellString.Remove(0, 2);
                     shellString = shellString.Trim();
                     Console.WriteLine($"Execute Program {shellString}");
-                    pidTemp = VM.readyQueue.FirstOrDefault(x => x.Value.programFileName == shellString).Key;
-                    MemoryManagement.executeProgram(VM, pidTemp);
+                    pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == shellString).Key;
+                    Execute.executeProgram(VM, pidTemp);
                 }
             }
 
@@ -72,7 +81,7 @@ namespace CS6510_VirtualMachine_SJB
                     shellString = shellString.Remove(0, 2);
                     shellString = shellString.Trim();
                     Console.WriteLine($"CORE DUMP {shellString}");
-                    MemoryManagement.coreDump(VM);
+                    coredump.coreDump(VM);
                 }
                 else
                 {
@@ -87,35 +96,66 @@ namespace CS6510_VirtualMachine_SJB
             {
                 if (shellString.Contains("-v"))
                 {
-                    //Removes Execute
-                    shellString = shellString.Remove(0, 7);
-                    shellString = shellString.Trim();
-                    //Removes Verbose
-                    shellString = shellString.Remove(0, 2);
-                    shellString = shellString.Trim();
-                    // check for space here
-                    if (shellString.IndexOf(' ') != -1)
+                    string[] inputs = shellString.Split(" ");
+                    ////Removes Execute
+                    //shellString = shellString.Remove(0, 7);
+                    //shellString = shellString.Trim();
+                    ////Removes Verbose
+                    //shellString = shellString.Remove(0, 2);
+                    //shellString = shellString.Trim();
+                    //// check for space here
+                    //if (shellString.IndexOf(' ') != -1)
+                    //{
+                    //    // separates time in value from file name
+                    //    int.TryParse(shellString.Substring(shellString.IndexOf(' ') + 1), out timeIn);
+                    //    int i = (shellString.IndexOf(' ') + 1);
+                    //    shellString = shellString.Substring(0, i);
+                    //}
+                    inputs = inputs.Skip(2).ToArray();
+                    for(int i = 0; i < inputs.Length; i++)
                     {
-                        // separates time in value from file name
-                        int.TryParse(shellString.Substring(shellString.IndexOf(' ') + 1), out timeIn);
-                        int i = (shellString.IndexOf(' ') + 1);
-                        shellString = shellString.Substring(0, i);
-                    }
-                    foreach(KeyValuePair<int,ProcessControlBlock> entry in VM.newQueue)
-                    {
-                       if(entry.Value.startPC == timeIn)
+                        if (inputs.Length % 2 == 0)
                         {
-                            Console.WriteLine("Process already scheduled for that time");
-                            scheduleConflict = true;
+                            foreach (string input in inputs)
+                            {
+                                if (int.TryParse(input, out timeIn) == false)
+                                {
+                                    timeIn = VM.clock++;
+                                    inputs = inputs.Skip(0).ToArray();
+                                }     
+                            }
+                        }
+                        else
+                        {
+                            timeIn = VM.clock++;
+                        }
+
+
+                        foreach (KeyValuePair<int, ProcessControlBlock> entry in VM.fp.newQueue)
+                        {
+                            if (entry.Value.startPC == timeIn)
+                            {
+                                Console.WriteLine("Process already scheduled for that time");
+                                scheduleConflict = true;
+                            }
+                        }
+
+                        Console.WriteLine($"\nLoad Program {inputs[i]}");
+                        Load.loadProgram(VM, inputs[i]);
+                    }
+
+                    foreach (string input in inputs)
+                    {
+                        if (scheduleConflict == false)
+                        {
+           
+                            Console.WriteLine($"\nExecute Program {input}");
+                            Console.WriteLine($"Time in {timeIn}");
+                            pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == input).Key;
+                            Execute.executeProgram(VM, pidTemp);
                         }
                     }
-                    if(scheduleConflict == false) {
-                        Console.WriteLine($"Execute {shellString}");
-                        Console.WriteLine($"Time in {timeIn}");
-                        MemoryManagement.loadProgram(VM, shellString);
-                        pidTemp = VM.readyQueue.FirstOrDefault(x => x.Value.programFileName == shellString).Key;
-                        MemoryManagement.executeProgram(VM, pidTemp);
-                    }
+
                     scheduleConflict = false;
        
                 }
@@ -152,17 +192,6 @@ namespace CS6510_VirtualMachine_SJB
                 return true;
             }
         }
-
-
-
-      
-       
-
-  
-
-      
-
-
     }
 
 }
