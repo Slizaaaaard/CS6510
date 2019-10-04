@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CS6510_VirtualMachine_SJB.Memory
 {
-    static class Execute
+   public class Execute 
     {
         public static void executeProgram(VirtualMachine VM, int PID)
         {

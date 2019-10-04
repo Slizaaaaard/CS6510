@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Linq;
+using CS6510_VirtualMachine_SJB.Memory;
 
 namespace CS6510_VirtualMachine_SJB
 {
@@ -13,14 +14,8 @@ namespace CS6510_VirtualMachine_SJB
         static string shellString;
         static int timeIn = 0;
         static int pidTemp;
+       
 
-        internal static Kernel Kernel
-        {
-            get => default;
-            set
-            {
-            }
-        }
 
         public static bool shellCommand(VirtualMachine VM)
         {
@@ -68,7 +63,8 @@ namespace CS6510_VirtualMachine_SJB
                     shellString = shellString.Trim();
                     Console.WriteLine($"Execute Program {shellString}");
                     pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == shellString).Key;
-                    Execute.executeProgram(VM, pidTemp);
+                    
+                   Execute.executeProgram(VM, pidTemp);
                 }
             }
 
@@ -81,7 +77,7 @@ namespace CS6510_VirtualMachine_SJB
                     shellString = shellString.Remove(0, 2);
                     shellString = shellString.Trim();
                     Console.WriteLine($"CORE DUMP {shellString}");
-                    coredump.coreDump(VM);
+                    CoreDump.coreDump(VM);
                 }
                 else
                 {
@@ -148,12 +144,12 @@ namespace CS6510_VirtualMachine_SJB
                     {
                         if (scheduleConflict == false)
                         {
-           
+
                             Console.WriteLine($"\nExecute Program {input}");
                             Console.WriteLine($"Time in {timeIn}");
-                            pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == input).Key;
-                            .executeProgram(VM, pidTemp);
-                        }
+                            pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == input).Key; 
+                            Execute.executeProgram(VM, pidTemp);
+                        } 
                     }
 
                     scheduleConflict = false;
