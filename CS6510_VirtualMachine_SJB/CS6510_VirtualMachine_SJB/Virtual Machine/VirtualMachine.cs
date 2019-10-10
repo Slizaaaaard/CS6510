@@ -16,6 +16,7 @@ namespace CS6510_VirtualMachine_SJB
         public int instructionPC;
         public int clock;
         public int PIDCount;
+        public string errors;
         public FiveProcess fp;
         public VirtualMachine()
         {
@@ -26,6 +27,14 @@ namespace CS6510_VirtualMachine_SJB
             datAddr = 0;
             instructionPC = 0;
             fp = new FiveProcess();
+        }
+
+        internal OperatingSystem OperatingSystem
+        {
+            get => default;
+            set
+            {
+            }
         }
     }
 }

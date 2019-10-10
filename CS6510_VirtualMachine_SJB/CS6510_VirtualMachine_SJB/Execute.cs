@@ -4,8 +4,24 @@ using System.Text;
 
 namespace CS6510_VirtualMachine_SJB.Memory
 {
-   public class Execute 
+   public class Execute
     {
+        public VirtualMachine VirtualMachine
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public ProcessControlBlock ProcessControlBlock
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public static void executeProgram(VirtualMachine VM, int PID)
         {
             
@@ -25,6 +41,7 @@ namespace CS6510_VirtualMachine_SJB.Memory
                 int destination;
                 int source_1;
                 int source_2;
+                int tempPID = 0;
                 switch (instruction)
                 {
                     case (byte)AssemblyInstruction.ADD:
@@ -68,7 +85,7 @@ namespace CS6510_VirtualMachine_SJB.Memory
                             VM.fp.waitQueue[PID] = VM.fp.runningQueue[PID];
                             VM.fp.waitQueue[PID].processState = (int)ProcessStateEnum.waiting;
                             Console.WriteLine("Waiting for User Input");
-                            Console.ReadKey();
+                            Console.ReadLine();
                             VM.fp.runningQueue[PID] = VM.fp.waitQueue[PID];
                             VM.fp.runningQueue[PID].processState = (int)ProcessStateEnum.running;
                         }
@@ -86,19 +103,39 @@ namespace CS6510_VirtualMachine_SJB.Memory
                         }
                         if (kernal == 40)
                         {
-                            int tempPID = Fork.fork(VM, PID, i);
-                            Console.WriteLine($"fjork returned {tempPID}");
+                            if (VM.fp.runningQueue[PID].child == false)
+                            {
+                                tempPID = Fork.fork(VM, PID, i);
+                            }
+                         
                         }
                         if (kernal == 50)
                         {
                             if (VM.fp.runningQueue[PID].parent != true && VM.fp.runningQueue[PID].child == true)
                             {
-
-                                Fork.exec(VM, PID);
-                                Console.WriteLine("Executing Fork");
+                                Fork.exec();
+                                VM.fp.readyQueue[PID].endPC = i;
                             }
 
                         }
+                        if (kernal == 60)
+                        {
+                            if (VM.fp.runningQueue[PID].parent == true)
+                            {
+                                // Put Parent Process Into Waiting
+                                VM.fp.waitQueue[PID] = VM.fp.runningQueue[PID];
+
+                                VM.fp.waitQueue[PID].processState = (int)ProcessStateEnum.waiting;
+
+                                Console.WriteLine("\nParent Waiting\n");
+                                Fork.wait(VM, VM.fp.runningQueue[PID].childPid);
+
+                                Console.WriteLine($"fjork returned {VM.fp.runningQueue[PID].childPid}");
+                            }
+
+                       
+                        }
+                        
 
                         break;
                 }
@@ -106,6 +143,17 @@ namespace CS6510_VirtualMachine_SJB.Memory
 
             VM.fp.terminatedQueue[PID] = VM.fp.runningQueue[PID];
             VM.fp.terminatedQueue[PID].processState = (int)ProcessStateEnum.terminated;
+            VM.fp.readyQueue[PID].processState = (int)ProcessStateEnum.terminated;
+
+        }
+        static void fetch()
+        {
+
+        }
+
+        static void decode()
+        {
+
         }
     }
 }

@@ -16,6 +16,9 @@ namespace CS6510_VirtualMachine_SJB
         public int PC;
         public bool parent = false;
         public bool child = false;
+        public int childPid = 0;
+        public int length;
+        public string errors;
 
 
     }

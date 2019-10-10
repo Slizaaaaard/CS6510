@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 namespace CS6510_VirtualMachine_SJB
 {
-    class Kernel
+    class OperatingSystem
     {
         static VirtualMachine VM = new VirtualMachine();
         static FiveProcess FP = new FiveProcess();

@@ -14,8 +14,32 @@ namespace CS6510_VirtualMachine_SJB
         static string shellString;
         static int timeIn = 0;
         static int pidTemp;
-       
+        static List<string> listString = new List<string>();
+        static List<int> times = new List<int>();
 
+        internal static Load Load
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public static Execute Execute
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal static OperatingSystem OperatingSystem
+        {
+            get => default;
+            set
+            {
+            }
+        }
 
         public static bool shellCommand(VirtualMachine VM)
         {
@@ -77,7 +101,8 @@ namespace CS6510_VirtualMachine_SJB
                     shellString = shellString.Remove(0, 2);
                     shellString = shellString.Trim();
                     Console.WriteLine($"CORE DUMP {shellString}");
-                    CoreDump.coreDump(VM);
+                    pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == shellString && x.Value.processState != (int)ProcessStateEnum.terminated).Key;
+                    CoreDump.coreDump(VM, pidTemp);
                 }
                 else
                 {
@@ -107,49 +132,68 @@ namespace CS6510_VirtualMachine_SJB
                     //    int i = (shellString.IndexOf(' ') + 1);
                     //    shellString = shellString.Substring(0, i);
                     //}
+                        
+
+            
+                  
                     inputs = inputs.Skip(2).ToArray();
-                    for(int i = 0; i < inputs.Length; i++)
+                    listString = inputs.OfType<string>().ToList();
+             
+                    bool ready = true;
+                    int tem = 0;
+                    for (int i = 0; i < listString.Count; i++)
                     {
-                        if (inputs.Length % 2 == 0)
-                        {
-                            foreach (string input in inputs)
-                            {
-                                if (int.TryParse(input, out timeIn) == false)
+                        if (inputs.Length % 2 == 0) {
+                            ready = false;
+                                if (int.TryParse(listString[i], out timeIn) == true)
                                 {
-                                    timeIn = VM.clock++;
-                                    inputs = inputs.Skip(0).ToArray();
+
+                                foreach (int entry in times)
+                                {
+                                    if (entry == timeIn)
+                                    {
+                                        Console.WriteLine("Process already scheduled for that time");
+                                        scheduleConflict = true;
+                                    }
+                                }
+                                listString.Remove(listString[i]);
+                                times.Add(timeIn);
+                                ready = true;
                                 }     
-                            }
                         }
                         else
                         {
                             timeIn = VM.clock++;
+                            times.Add(timeIn);
                         }
 
 
-                        foreach (KeyValuePair<int, ProcessControlBlock> entry in VM.fp.newQueue)
+                        if (ready == true && scheduleConflict == false)
                         {
-                            if (entry.Value.startPC == timeIn)
-                            {
-                                Console.WriteLine("Process already scheduled for that time");
-                                scheduleConflict = true;
-                            }
+                            Console.WriteLine($"\nLoad Program {listString[tem]}");
+                            Console.WriteLine($"Time in {timeIn} \n");
+                            Load.loadProgram(VM, listString[tem]);
+                            tem++;
                         }
-
-                        Console.WriteLine($"\nLoad Program {inputs[i]}");
-                        Load.loadProgram(VM, inputs[i]);
+                   
                     }
 
-                    foreach (string input in inputs)
+                    foreach (string input in listString)
                     {
                         if (scheduleConflict == false)
                         {
 
                             Console.WriteLine($"\nExecute Program {input}");
-                            Console.WriteLine($"Time in {timeIn}");
-                            pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == input).Key; 
+                            pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == input && x.Value.processState != (int)ProcessStateEnum.terminated).Key; 
                             Execute.executeProgram(VM, pidTemp);
-                        } 
+                            foreach(KeyValuePair<int, ProcessControlBlock> entry in VM.fp.readyQueue)
+                            {
+                                Console.Write($"Pid {entry.Value.PID} process state {ProcessStateEnum.GetName(typeof(ProcessStateEnum), entry.Value.processState)} ");
+                                makeChart(entry.Value);
+                            }
+                           
+                        }
+                  
                     }
 
                     scheduleConflict = false;
@@ -171,7 +215,7 @@ namespace CS6510_VirtualMachine_SJB
                     }
                     else
                     {
-                        Console.WriteLine($"ERROR DUMP {shellString} {MemoryManagement.errors}");
+                        Console.WriteLine($"ERROR DUMP {shellString} {VM.errors}");
                     }
 
                 }
@@ -187,6 +231,26 @@ namespace CS6510_VirtualMachine_SJB
             {
                 return true;
             }
+        }
+
+        public static void makeChart(ProcessControlBlock entry)
+        {
+            int length = entry.length;
+            length = length / 10;
+            string progress = "";
+            for(int i = 0; i < length; i++)
+            {
+                if(entry.processState == (int)ProcessStateEnum.ready)
+                {
+                    progress = progress + "-";
+                }
+                else
+                {
+                    progress = progress + "X";
+                }
+            
+            }
+            Console.WriteLine(progress + " " + entry.child);
         }
     }
 

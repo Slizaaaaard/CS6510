@@ -1,44 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="CS6510_VirtualMachine_SJB.VirtualMachine">
-    <Position X="7.75" Y="0.5" Width="1.75" />
+    <Position X="3.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgIAAAAAAACIQAAAAAEAACAAAABAIAAgQACAAAAECQ=</HashCode>
-      <FileName>VirtualMachine.cs</FileName>
+      <HashCode>AAgIAAAAAAAAIQAAAAEEAAAAAAABEIAAARACAAAAAAQ=</HashCode>
+      <FileName>Virtual Machine\VirtualMachine.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="OperatingSystem" />
+    </ShowAsAssociation>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.ProcessControlBlock">
-    <Position X="1.5" Y="2.25" Width="2" />
+  <Class Name="CS6510_VirtualMachine_SJB.OperatingSystem">
+    <Position X="6.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIABAAKGAAAAAAAABAAAAAQIAAACAAAA=</HashCode>
-      <FileName>ProcessControlBlock.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAQAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Operating System\OperatingSystem.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CS6510_VirtualMachine_SJB.Shell">
-    <Position X="11.25" Y="3.5" Width="1.5" />
+    <Position X="9.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAACAAAAIQAAAAAAEAAAAAAAAAgABABA=</HashCode>
+      <HashCode>AAAAgAAAAAAAAASAAAAIQAAAAAAEEAAAAAAAAAABIBA=</HashCode>
       <FileName>Shell.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Kernel" />
+      <Property Name="Load" />
+      <Property Name="Execute" />
+      <Property Name="OperatingSystem" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.Kernel">
-    <Position X="11.25" Y="1.5" Width="1.5" />
+  <Class Name="CS6510_VirtualMachine_SJB.ProcessControlBlock">
+    <Position X="13.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAIAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Kernel.cs</FileName>
+      <HashCode>AAAAAAAAAAAAIABQAOGAAAAAAAABAAAAAQIAAACAAAA=</HashCode>
+      <FileName>Memory\ProcessControlBlock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CS6510_VirtualMachine_SJB.Load">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABCAAIAABAAgAAAAAAAAA=</HashCode>
+      <FileName>Memory\Load.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="VirtualMachine" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.MemoryManagement">
-    <Position X="4.75" Y="1.5" Width="2.25" />
+  <Class Name="CS6510_VirtualMachine_SJB.Memory.Execute">
+    <Position X="9.5" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEAAAAAAAAAAAAAEAAAAACIAIAAAAAgAQAAAAAEQ=</HashCode>
-      <FileName>MemoryManagement.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Execute.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="VirtualMachine" />

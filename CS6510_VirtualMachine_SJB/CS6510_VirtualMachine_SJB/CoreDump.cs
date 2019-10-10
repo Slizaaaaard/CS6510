@@ -6,9 +6,9 @@ namespace CS6510_VirtualMachine_SJB.Memory
 {
     public static class CoreDump
     {
-        public static void coreDump(VirtualMachine VM)
+        public static void coreDump(VirtualMachine VM, int PID)
         {
-            for (int i = 100; i < VM.loaderAddress; i += 6)
+            for (int i = VM.fp.readyQueue[PID].startPC; i < VM.fp.readyQueue[PID].endPC; i += 6)
             {
                 int instruction = VM.MEM[i];
                 int destination;

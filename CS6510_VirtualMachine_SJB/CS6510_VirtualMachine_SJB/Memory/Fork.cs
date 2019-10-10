@@ -13,7 +13,9 @@ namespace CS6510_VirtualMachine_SJB.Memory
 
             ProcessControlBlock newProcess = new ProcessControlBlock();
             // Move child into new process
-            newProcess.startPC = PC + 30;
+            newProcess.startPC = PC;
+            newProcess.endPC = VM.fp.runningQueue[PID].endPC;
+            newProcess.length = VM.fp.runningQueue[PID].length + VM.fp.runningQueue[PID].startPC - PC;
             newProcess.processState = (int)ProcessStateEnum.newProcess;
             newProcess.programFileName = VM.fp.runningQueue[PID].programFileName + " Child";
             newProcess.PID = VM.PIDCount;
@@ -30,21 +32,22 @@ namespace CS6510_VirtualMachine_SJB.Memory
             VM.fp.readyQueue[newProcess.PID] = VM.fp.newQueue[newProcess.PID];
             VM.fp.readyQueue[newProcess.PID].processState = (int)ProcessStateEnum.ready;
 
-            // Put Parent Process Into Waiting
-            VM.fp.waitQueue[PID] = VM.fp.runningQueue[PID];
-            VM.fp.waitQueue[PID].parent = true;
-            VM.fp.waitQueue[PID].processState = (int)ProcessStateEnum.waiting;
-
-
-            VM.fp.runningQueue[PID] = VM.fp.readyQueue[PID];
-            VM.fp.runningQueue[PID].processState = (int)ProcessStateEnum.running;
-
-            return PID;
+            // Store child PID in parent PCB
+            VM.fp.readyQueue[PID].childPid = newProcess.PID;
+            VM.fp.readyQueue[PID].parent = true;
+            VM.PIDCount++;
+            return newProcess.PID;
         }
 
-        public static int exec(VirtualMachine VM, int PID)
+        public static void exec()
         {
-            
+            Console.WriteLine("Type in Command to Exec");
+            string execCommand = Console.ReadLine();
+            Console.WriteLine($"Executing {execCommand}");
+        }
+        public static int wait(VirtualMachine VM, int PID)
+        {
+          
             Execute.executeProgram(VM, PID);
             return 0;
         }

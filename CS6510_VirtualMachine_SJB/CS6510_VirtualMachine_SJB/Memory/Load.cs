@@ -7,7 +7,14 @@ namespace CS6510_VirtualMachine_SJB
 {
     class Load
     {
-        static string errors;
+        public VirtualMachine VirtualMachine
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public static void loadProgram(VirtualMachine VM, string programString)
         {
             if (programString == "")
@@ -29,27 +36,30 @@ namespace CS6510_VirtualMachine_SJB
 
 
                         int bSize = br.ReadInt32();
+              
                         VM.PC = br.ReadInt32();
-
+                 
                         VM.fetchAddr = VM.loaderAddress;
                         VM.dataAddr = VM.loaderAddress;
                         VM.datAddr = VM.loaderAddress;
                         Console.WriteLine($"bSize {bSize}");
                         Console.WriteLine($"PC {VM.PC}");
                         Console.WriteLine($"Loader Address {VM.loaderAddress}");
+                        VM.fp.newQueue[newProcess.PID].startPC = VM.loaderAddress;
 
-                        for (int i = 0; i < VM.PC; i++)
+                        for (int i = VM.fp.newQueue[newProcess.PID].startPC; i < VM.PC; i++)
                         {
                             VM.MEM[i] = br.ReadByte();
 
                         }
 
-                        VM.fp.newQueue[newProcess.PID].startPC = VM.loaderAddress;
+                        VM.fp.newQueue[newProcess.PID].length = bSize;
                         int tempLoader = VM.loaderAddress;
                         for (
-                            int i = VM.PC + tempLoader; i < bSize; i += 6)
+                            int i = VM.PC + tempLoader; i < bSize + tempLoader + VM.PC; i += 6)
                         {
                             byte Byte = br.ReadByte();
+                            Console.WriteLine(Byte + " " + i);
                             switch (Byte)
                             {
                                 case (byte)AssemblyInstruction.ADD:
@@ -130,15 +140,16 @@ namespace CS6510_VirtualMachine_SJB
 
                         VM.fp.readyQueue[VM.PIDCount] = newProcess;
                         VM.fp.readyQueue[VM.PIDCount].endPC = VM.loaderAddress;
-                        VM.PIDCount++;
+
                         newProcess.processState = (int)ProcessStateEnum.ready;
                     }
                 }
             }
             catch (FileNotFoundException ex)
             {
-                errors = ex.ToString();
+                VM.errors = ex.ToString();
             }
+            VM.PIDCount++;
         }
 
         static void loadExpression(VirtualMachine VM, BinaryReader br, byte Byte)
@@ -150,6 +161,8 @@ namespace CS6510_VirtualMachine_SJB
             VM.MEM[VM.loaderAddress++] = br.ReadByte();
             VM.MEM[VM.loaderAddress++] = br.ReadByte();
         }
+
+  
 
     }
 }
