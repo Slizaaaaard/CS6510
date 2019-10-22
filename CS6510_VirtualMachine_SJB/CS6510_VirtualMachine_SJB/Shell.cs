@@ -178,24 +178,6 @@ namespace CS6510_VirtualMachine_SJB
                    
                     }
 
-                    foreach (string input in listString)
-                    {
-                        if (scheduleConflict == false)
-                        {
-
-                            Console.WriteLine($"\nExecute Program {input}");
-                            pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == input && x.Value.processState != (int)ProcessStateEnum.terminated).Key; 
-                            Execute.executeProgram(VM, pidTemp);
-                            foreach(KeyValuePair<int, ProcessControlBlock> entry in VM.fp.readyQueue)
-                            {
-                                Console.Write($"Pid {entry.Value.PID} process state {ProcessStateEnum.GetName(typeof(ProcessStateEnum), entry.Value.processState)} ");
-                                makeChart(entry.Value);
-                            }
-                           
-                        }
-                  
-                    }
-
                     scheduleConflict = false;
        
                 }
@@ -221,6 +203,48 @@ namespace CS6510_VirtualMachine_SJB
                 }
             }
 
+            if (shellString.Contains("setRR"))
+            {
+                string[] inputs;
+                if (shellString.Contains("quantum1"))
+                {
+                    inputs = shellString.Split(' ');
+                    int.TryParse(inputs[3], out VM.scheduler.quantum1);
+                    Console.WriteLine($"Quantum 1 set to {VM.scheduler.quantum1}");
+                
+                }
+                if (shellString.Contains("quantum2"))
+                {
+                    inputs = shellString.Split(' ');
+                    int.TryParse(inputs[3], out VM.scheduler.quantum2);
+                    Console.WriteLine($"Quantum 2 set to {VM.scheduler.quantum2}");
+                }
+
+
+            }
+
+            if (shellString.Contains("setsched"))
+            {
+                string[] inputs;
+                shellString.ToLower();
+                if (shellString.Contains("rr1"))
+                {
+                    inputs = shellString.Split(' ');
+                    VM.scheduler.setSched = inputs[3];
+                }
+                else if (shellString.Contains("fcfs"))
+                {
+                    inputs = shellString.Split(' ');
+                    VM.scheduler.setSched = inputs[3];
+                }
+                else if(shellString.Contains("mfq"))
+                {
+                    inputs = shellString.Split(' ');
+                    VM.scheduler.setSched = inputs[3];
+                }
+                Console.WriteLine($"Scheduler set to {VM.scheduler.setSched}");
+            }
+
             VM.clock++;
 
             if (shellString == "stop" || shellString == "quit" || shellString == "exit")
@@ -233,25 +257,7 @@ namespace CS6510_VirtualMachine_SJB
             }
         }
 
-        public static void makeChart(ProcessControlBlock entry)
-        {
-            int length = entry.length;
-            length = length / 10;
-            string progress = "";
-            for(int i = 0; i < length; i++)
-            {
-                if(entry.processState == (int)ProcessStateEnum.ready)
-                {
-                    progress = progress + "-";
-                }
-                else
-                {
-                    progress = progress + "X";
-                }
-            
-            }
-            Console.WriteLine(progress + " " + entry.child);
-        }
+
     }
 
 }

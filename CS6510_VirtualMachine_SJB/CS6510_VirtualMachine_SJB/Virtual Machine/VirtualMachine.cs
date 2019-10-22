@@ -18,6 +18,10 @@ namespace CS6510_VirtualMachine_SJB
         public int PIDCount;
         public string errors;
         public FiveProcess fp;
+        public PriorityQueue priorityQueue;
+        public Scheduler scheduler;
+
+
         public VirtualMachine()
         {
             PC = 0;
