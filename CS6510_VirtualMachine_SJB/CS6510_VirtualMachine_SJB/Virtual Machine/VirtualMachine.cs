@@ -31,14 +31,8 @@ namespace CS6510_VirtualMachine_SJB
             datAddr = 0;
             instructionPC = 0;
             fp = new FiveProcess();
-        }
-
-        internal OperatingSystem OperatingSystem
-        {
-            get => default;
-            set
-            {
-            }
+            scheduler = new Scheduler();
+            priorityQueue = new PriorityQueue();
         }
     }
 }

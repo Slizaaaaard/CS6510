@@ -3,58 +3,72 @@
   <Class Name="CS6510_VirtualMachine_SJB.VirtualMachine">
     <Position X="3.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgIAAAAAAAAIQAAAAEEAAAAAAABEIAAARACAAAAAAQ=</HashCode>
+      <HashCode>AAgIACAAAAAAIQAAAAEEAAAAAAABAIBAARACAAAAAAQ=</HashCode>
       <FileName>Virtual Machine\VirtualMachine.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="CS6510_VirtualMachine_SJB.ProcessControlBlock" Collapsed="true">
+    <Position X="8.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAKBBQAOGaAAAAAEABAAAAAwIAAACAAAA=</HashCode>
+      <FileName>Memory\ProcessControlBlock.cs</FileName>
+    </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="OperatingSystem" />
+      <Property Name="Scheduler" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.OperatingSystem">
-    <Position X="6.25" Y="1.75" Width="1.5" />
+  <Class Name="CS6510_VirtualMachine_SJB.Load" Collapsed="true">
+    <Position X="6.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAACAAQAAAAAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Operating System\OperatingSystem.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Memory\Load.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.Shell">
-    <Position X="9.25" Y="1.5" Width="1.5" />
+  <Class Name="CS6510_VirtualMachine_SJB.Memory.Execute" Collapsed="true">
+    <Position X="6.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAASAAAAIQAAAAAAEEAAAAAAAAAABIBA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAJAAAAAABAAAAAAAAAAEA=</HashCode>
+      <FileName>Execute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CS6510_VirtualMachine_SJB.OperatingSystem1">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgEAAAAAAAASAAABIQAAAAgAMAAAAAAEAABABABA=</HashCode>
       <FileName>Shell.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
+      <Property Name="VirtualMachine" />
       <Property Name="Load" />
       <Property Name="Execute" />
-      <Property Name="OperatingSystem" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.ProcessControlBlock">
-    <Position X="13.25" Y="3.5" Width="1.5" />
+  <Class Name="CS6510_VirtualMachine_SJB.Scheduler">
+    <Position X="10.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIABQAOGAAAAAAAABAAAAAQIAAACAAAA=</HashCode>
-      <FileName>Memory\ProcessControlBlock.cs</FileName>
+      <HashCode>AAAAAAAABAgAAAAAAQAAAABAQAAIAAAAAABAAAAAIAA=</HashCode>
+      <FileName>Scheduler.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.Load">
-    <Position X="11.75" Y="1.5" Width="1.5" />
+  <Class Name="CS6510_VirtualMachine_SJB.MemoryManagement" Collapsed="true">
+    <Position X="6.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABCAAIAABAAgAAAAAAAAA=</HashCode>
-      <FileName>Memory\Load.cs</FileName>
+      <HashCode>IAAAAAAAAAAAAAAAAAEAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Memory\MemoryManagement.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="VirtualMachine" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.Memory.Execute">
-    <Position X="9.5" Y="5.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAIAAAAAAAAAAAAAEA=</HashCode>
-      <FileName>Execute.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="VirtualMachine" />
       <Property Name="ProcessControlBlock" />
+      <Property Name="PriorityQueue" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CS6510_VirtualMachine_SJB.PriorityQueue" Collapsed="true">
+    <Position X="8.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAABAAAQAAEAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>PriorityQueue.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Scheduler" />
     </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />

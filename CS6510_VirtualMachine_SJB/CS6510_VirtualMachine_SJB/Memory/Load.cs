@@ -7,13 +7,6 @@ namespace CS6510_VirtualMachine_SJB
 {
     class Load
     {
-        public VirtualMachine VirtualMachine
-        {
-            get => default;
-            set
-            {
-            }
-        }
 
         public static void loadProgram(VirtualMachine VM, string programString)
         {
@@ -42,10 +35,11 @@ namespace CS6510_VirtualMachine_SJB
                         VM.fetchAddr = VM.loaderAddress;
                         VM.dataAddr = VM.loaderAddress;
                         VM.datAddr = VM.loaderAddress;
-                        Console.WriteLine($"bSize {bSize}");
-                        Console.WriteLine($"PC {VM.PC}");
-                        Console.WriteLine($"Loader Address {VM.loaderAddress}");
+                        //Console.WriteLine($"bSize {bSize}");
+                        //Console.WriteLine($"PC {VM.PC}");
+                        //Console.WriteLine($"Loader Address {VM.loaderAddress}");
                         VM.fp.newQueue[newProcess.PID].startPC = VM.loaderAddress;
+                        VM.fp.newQueue[newProcess.PID].startSection = VM.loaderAddress;
 
                         for (int i = VM.fp.newQueue[newProcess.PID].startPC; i < VM.PC; i++)
                         {
@@ -59,23 +53,23 @@ namespace CS6510_VirtualMachine_SJB
                             int i = VM.PC + tempLoader; i < bSize + tempLoader + VM.PC; i += 6)
                         {
                             byte Byte = br.ReadByte();
-                            Console.WriteLine(Byte + " " + i);
+                            //Console.WriteLine(Byte + " " + i);
                             switch (Byte)
                             {
                                 case (byte)AssemblyInstruction.ADD:
-                                    Console.WriteLine("Add Loaded Into Memory");
+                                    //Console.WriteLine("Add Loaded Into Memory");
                                     loadExpression(VM, br, Byte);
                                     break;
                                 case (byte)AssemblyInstruction.SUB:
-                                    Console.WriteLine("Subtract Loaded Into Memory");
+                                    //Console.WriteLine("Subtract Loaded Into Memory");
                                     loadExpression(VM, br, Byte);
                                     break;
                                 case (byte)AssemblyInstruction.MUL:
-                                    Console.WriteLine("Multiply Loaded Into Memory");
+                                    //Console.WriteLine("Multiply Loaded Into Memory");
                                     loadExpression(VM, br, Byte);
                                     break;
                                 case (byte)AssemblyInstruction.DIV:
-                                    Console.WriteLine("Divide Loaded Into Memory");
+                                    //Console.WriteLine("Divide Loaded Into Memory");
                                     loadExpression(VM, br, Byte);
                                     break;
                                 case (byte)AssemblyInstruction.MOV:
@@ -130,14 +124,14 @@ namespace CS6510_VirtualMachine_SJB
                                     loadExpression(VM, br, Byte);
                                     break;
                                 case (byte)AssemblyInstruction.SWI:
-                                    Console.WriteLine("Switch Loaded Into Memory");
+                                    //Console.WriteLine("Switch Loaded Into Memory");
                                     loadExpression(VM, br, Byte);
                                     break;
 
                             }
 
                         }
-
+                        newProcess.timeIn = VM.clock;
                         VM.fp.readyQueue[VM.PIDCount] = newProcess;
                         VM.fp.readyQueue[VM.PIDCount].endPC = VM.loaderAddress;
 

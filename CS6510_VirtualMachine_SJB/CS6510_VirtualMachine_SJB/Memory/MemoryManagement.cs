@@ -10,6 +10,20 @@ namespace CS6510_VirtualMachine_SJB
 
         public static string errors;
 
+        public static ProcessControlBlock ProcessControlBlock
+        {
+            get => default;
+            set
+            {
+            }
+        }
 
+        public static PriorityQueue PriorityQueue
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

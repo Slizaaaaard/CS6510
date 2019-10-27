@@ -1,0 +1,830 @@
+#Download and Extract Zip Folder
+
+##Create an osx file using a.asm b.asm c.asm c.asm.exe
+#Open Command prompt
+#Open to path C:\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1
+#In Command Prompt type: 
+osx.exe a.asm 100 
+osx.exe b.asm 100 
+osx.exe c.asm 100 
+osx.exe d.asm 100
+#Pass Case:
+#In path C:\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1 
+#Pass Case:
+#You should have 4 files named
+a.asm
+b.asm
+c.asm
+d.asm
+
+###MileStone 3 Acceptance Testing
+############################################################################1
+VM->setsched rr1
+Scheduler set to rr1
+VM->execute -v a.osx b.osx c.osx
+Load Program a.osx
+Time in 1
+Load Program b.osx
+Time in 2
+Load Program c.osx
+Time in 3
+Round Robin 1
+Round 1
+012
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+WRN
+WRN
+WRN
+WRN
+WRN
+WRN
+WRN
+WRN
+WRN
+WRN
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+Round 2
+012
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+Round 3
+012
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+Round 4
+012
+RWW
+RWW
+RWW
+RWW
+TRW
+TRW
+TRW
+TRW
+TRW
+TTR
+TTR
+TTR
+TTR
+TTR
+VM->
+
+############################################################################2
+VM->setsched rr2
+Scheduler set to rr2
+VM->execute -v a.osx b.osx c.osx
+Load Program a.osx
+Time in 1
+Load Program b.osx
+Time in 2
+Load Program c.osx
+Time in 3
+Round Robin 2
+Round 1
+012
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WRW
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+WWR
+Round 2
+012
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+RWW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TRW
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+TTR
+Average Wait 54
+Average Turn Around 105
+Throughput 0.0277777777777778
+Average Response 10
+
+#############################################################################3
+VM->setsched fcfs
+Scheduler set to fcfs
+VM->execute -v a.osx b.osx c.osx
+Load Program a.osx
+Time in 110
+Load Program b.osx
+Time in 111
+Load Program c.osx
+Time in 112
+FCFS
+
+Execute Program a.osx
+345RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+RNN
+
+Execute Program b.osx
+45RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+RN
+
+Execute Program c.osx
+5R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+Average Wait 36
+Average Turn Around 105
+Throughput 0.0275229357798165
+Average Response -2
+VM->
+#
+############################################################################4-5
+VM->setsched mfq
+Scheduler set to mfq
+VM->execute -v d.osx
+Load Program d.osx
+Time in 220
+MFQ
+RR2 Round 1
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 1
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 2
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 2
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 3
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 3
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 4
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 4
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 5
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 5
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 6
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 6
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 7
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 7
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 8
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 8
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 9
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 9
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 10
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 10
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 11
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 11
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR2 Round 12
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+R
+RR1 Round 12
+6
+R
+R
+R
+R
+R
+R
+R
+R
+R
+Average Wait 28
+Average Turn Around 141
+Throughput 0.0120689655172414
+Average Response -33
+VM->
+############################################################################6
+VM->setrr quantum1 20
+Quantum 1 set to 20
+VM->setrr quantum2 10
+Quantum 2 set to 10
+VM->
+############################################################################7
+VM->setsched rr1
+Scheduler set to rr1
+VM->setsched fcfs
+Scheduler set to fcfs
+VM->setsched mfq
+Scheduler set to mfq
+VM->

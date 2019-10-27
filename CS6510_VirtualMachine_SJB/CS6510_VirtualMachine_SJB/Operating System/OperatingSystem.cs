@@ -11,7 +11,7 @@ namespace CS6510_VirtualMachine_SJB
         {
             do
             {
-            } while (Shell.shellCommand(VM) == true);
+            } while (OperatingSystem1.shellCommand(VM) == true);
             Console.WriteLine("program has ended press any key to exit");
             Console.ReadKey();
         }

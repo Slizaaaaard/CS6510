@@ -9,17 +9,29 @@ namespace CS6510_VirtualMachine_SJB
     public class PriorityQueue
     {
 
-        public SortedDictionary<int, ProcessControlBlock> queue0 = new SortedDictionary<int, ProcessControlBlock>();
-        public SortedDictionary<int, ProcessControlBlock> queue1 = new SortedDictionary<int, ProcessControlBlock>();
-        public SortedDictionary<int, ProcessControlBlock> queue2 = new SortedDictionary<int, ProcessControlBlock>();
+        public SortedDictionary<int, ProcessControlBlock> queue0;
+        public SortedDictionary<int, ProcessControlBlock> queue1;
+        public SortedDictionary<int, ProcessControlBlock> queue2;
         public int Count0;
         public int Count1;
         public int Count2;
-        PriorityQueue()
+        public PriorityQueue()
         {
+            queue0 = new SortedDictionary<int, ProcessControlBlock>();
+            queue1 = new SortedDictionary<int, ProcessControlBlock>();
+            queue2 = new SortedDictionary<int, ProcessControlBlock>();
+
             Count0 = 0;
             Count1 = 0;
             Count2 = 0;
+        }
+
+        public Scheduler Scheduler
+        {
+            get => default;
+            set
+            {
+            }
         }
 
         public void addQueue0(ProcessControlBlock pcb)
@@ -56,5 +68,6 @@ namespace CS6510_VirtualMachine_SJB
             int temp = queue2.FirstOrDefault(x => x.Key == id).Key;
             queue2.Remove(temp);
         }
+
     }
 }
