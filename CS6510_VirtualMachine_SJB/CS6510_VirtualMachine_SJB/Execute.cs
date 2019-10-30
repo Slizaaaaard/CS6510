@@ -4,9 +4,10 @@ using System.Text;
 
 namespace CS6510_VirtualMachine_SJB.Memory
 {
-   public class Execute
+ 
+    public class Execute
     {
-
+        static Random number = new Random();
         public static void executeProgram(VirtualMachine VM, int PID)
         {
             
@@ -120,6 +121,13 @@ namespace CS6510_VirtualMachine_SJB.Memory
 
                        
                         }
+                        if (kernal == 70)
+                        {
+ 
+                            
+
+                        }
+
                         break;
                 }
                 VM.clock++;
@@ -255,6 +263,12 @@ namespace CS6510_VirtualMachine_SJB.Memory
                                 //Console.WriteLine($"fork returned {VM.fp.runningQueue[PID].childPid}");
                             }
                         }
+                        if (kernal == 70)
+                        {
+
+                            queue[PID].ioBurst = number.Next(0, 20);
+                            queue[PID].processState = (int)ProcessStateEnum.running;
+                        }
                         break;
                 }
 
@@ -269,7 +283,25 @@ namespace CS6510_VirtualMachine_SJB.Memory
                             process.Value.waitTime++;
                             break;
                         case (int)ProcessStateEnum.running:
-                            Console.Write("R");
+                            if(VM.scheduler.setSched == "mfq")
+                            {
+                          
+                                if(queue[PID].ioBurst == 0)
+                                {
+                                    process.Value.processState = (int)ProcessStateEnum.waiting;
+                                    Console.Write("W");
+                                }
+                                else
+                                {
+                                    Console.Write("R");
+                                    queue[PID].ioBurst--;
+                                }
+                            }
+                            else
+                            {
+                                Console.Write("R");
+                            }
+                          
                             break;
                         case (int)ProcessStateEnum.terminated:
                             Console.Write("T");

@@ -26,6 +26,7 @@ namespace CS6510_VirtualMachine_SJB
         public int timeOut = 0;
         public int waitTime = 0;
         public int response = 0;
+        public int ioBurst = 0;
 
         public Scheduler Scheduler
         {

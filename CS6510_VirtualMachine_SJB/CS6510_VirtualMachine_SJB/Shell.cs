@@ -268,7 +268,10 @@ namespace CS6510_VirtualMachine_SJB
                                 {
                                     totalWait = totalWait + process.Value.waitTime;
                                     turnAround = turnAround + (process.Value.timeOut - process.Value.timeIn);
-                                    response = response + (process.Value.response - process.Value.timeIn);
+                                    if (process.Value.response != 0)
+                                    {
+                                        response = response + (process.Value.response - process.Value.timeIn);
+                                    }
                                 }
                                 totalWait = totalWait / VM.fp.terminatedQueue.Count();
                                 turnAround = turnAround / VM.fp.terminatedQueue.Count();

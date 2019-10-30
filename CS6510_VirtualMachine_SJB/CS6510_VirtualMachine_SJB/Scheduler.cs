@@ -82,7 +82,7 @@ namespace CS6510_VirtualMachine_SJB
                 }         
                 Execute.executePartial(VM, runningProcess.Key, VM.priorityQueue.queue0);
                 runningProcess.Value.startSection = runningProcess.Value.endSection;
-                runningProcess.Value.processState = (int)ProcessStateEnum.waiting;
+            
 
                 if (VM.priorityQueue.queue0[runningProcess.Key].endSection == runningProcess.Value.endPC)
                 {
@@ -91,12 +91,20 @@ namespace CS6510_VirtualMachine_SJB
                 }
                 if (VM.scheduler.setSched == "mfq" && VM.priorityQueue.queue0[runningProcess.Key].processState != (int)ProcessStateEnum.terminated)
                 {
+                    if(VM.priorityQueue.queue0[runningProcess.Key].processState == (int)ProcessStateEnum.running)
+                    {
+                        VM.priorityQueue.queue0[runningProcess.Key].round++;
+                    }
                    
-                    VM.priorityQueue.queue0[runningProcess.Key].round++;
                     if (VM.priorityQueue.queue0[runningProcess.Key].round == 3)
                     {
+                        VM.priorityQueue.queue0[runningProcess.Key].round = 0;
                         toBePromoted.Add(runningProcess.Key);
                     }
+                }
+                if (VM.priorityQueue.queue0[runningProcess.Key].processState != (int)ProcessStateEnum.terminated)
+                {
+                    runningProcess.Value.processState = (int)ProcessStateEnum.waiting;
                 }
 
 
@@ -140,7 +148,6 @@ namespace CS6510_VirtualMachine_SJB
                 }         
                 Execute.executePartial(VM, runningProcess.Key, VM.priorityQueue.queue1);
                 runningProcess.Value.startSection = runningProcess.Value.endSection;
-                runningProcess.Value.processState = (int)ProcessStateEnum.waiting;
 
 
                 if (VM.priorityQueue.queue1[runningProcess.Key].endSection == runningProcess.Value.endPC)
@@ -151,12 +158,22 @@ namespace CS6510_VirtualMachine_SJB
 
                 if (VM.scheduler.setSched == "mfq" && VM.priorityQueue.queue1[runningProcess.Key].processState != (int)ProcessStateEnum.terminated)
                 {
-
-                    VM.priorityQueue.queue1[runningProcess.Key].round++;
-                    if (VM.priorityQueue.queue1[runningProcess.Key].round == 6)
+                    if (VM.priorityQueue.queue1[runningProcess.Key].processState == (int)ProcessStateEnum.waiting)
                     {
+                        VM.priorityQueue.queue1[runningProcess.Key].round++;
+                    }
+
+                    if (VM.priorityQueue.queue1[runningProcess.Key].round == 3)
+                    {
+                        VM.priorityQueue.queue1[runningProcess.Key].round = 0;
                         toBeDemoted.Add(runningProcess.Key);
                     }
+            
+                }
+
+                if (VM.priorityQueue.queue1[runningProcess.Key].processState != (int)ProcessStateEnum.terminated)
+                {
+                    runningProcess.Value.processState = (int)ProcessStateEnum.waiting;
                 }
 
             }
@@ -170,8 +187,8 @@ namespace CS6510_VirtualMachine_SJB
 
             foreach (int id in toBeDemoted)
             {
-
                 ProcessControlBlock process = VM.priorityQueue.queue1.FirstOrDefault(x => x.Key == id).Value;
+
                 VM.priorityQueue.addQueue0(process);
                 VM.priorityQueue.removeQueue1(id);
                 Console.WriteLine($"Process {process.PID} was Demoted");

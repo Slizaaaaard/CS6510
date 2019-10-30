@@ -7,7 +7,7 @@ namespace CS6510_VirtualMachine_SJB
     public class VirtualMachine
     {
         public int[] registers= {1, 2 ,3 ,4 ,5 ,6 ,7 ,8};
-        public  byte[] MEM = new byte[10000];
+        public  byte[] MEM = new byte[1000000];
         public int PC;
         public int loaderAddress;
         public int fetchAddr;
