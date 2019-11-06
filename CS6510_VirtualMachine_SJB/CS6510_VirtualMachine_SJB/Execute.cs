@@ -269,6 +269,10 @@ namespace CS6510_VirtualMachine_SJB.Memory
                             queue[PID].ioBurst = number.Next(0, 20);
                             queue[PID].processState = (int)ProcessStateEnum.running;
                         }
+                        if(kernal == 80)
+                        {
+
+                        }
                         break;
                 }
 

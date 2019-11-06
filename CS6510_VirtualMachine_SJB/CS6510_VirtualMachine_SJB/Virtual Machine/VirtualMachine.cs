@@ -20,6 +20,7 @@ namespace CS6510_VirtualMachine_SJB
         public FiveProcess fp;
         public PriorityQueue priorityQueue;
         public Scheduler scheduler;
+        public SharedMemory sharedMemory;
 
 
         public VirtualMachine()
@@ -33,6 +34,7 @@ namespace CS6510_VirtualMachine_SJB
             fp = new FiveProcess();
             scheduler = new Scheduler();
             priorityQueue = new PriorityQueue();
+            sharedMemory = new SharedMemory();
         }
     }
 }

@@ -118,8 +118,12 @@ namespace CS6510_VirtualMachine_SJB
 
             if (shellString.Contains("execute"))
             {
-                if (shellString.Contains("-v"))
-                {
+                //if (shellString.Contains("-v"))
+                //{
+                    if (shellString.Contains("|"))
+                    {
+                        Console.WriteLine("Pipe");
+                    }
                     string[] inputs = shellString.Split(" ");
                     ////Removes Execute
                     //shellString = shellString.Remove(0, 7);
@@ -139,13 +143,15 @@ namespace CS6510_VirtualMachine_SJB
 
             
                   
-                    inputs = inputs.Skip(2).ToArray();
+                    inputs = inputs.Skip(1).ToArray();
                     listString = inputs.OfType<string>().ToList();
              
                     bool ready = true;
                     int tem = 0;
                     for (int i = 0; i < listString.Count; i++)
                     {
+                 
+
                         if (inputs.Length % 2 == 0) {
                             ready = false;
                                 if (int.TryParse(listString[i], out timeIn) == true)
@@ -318,7 +324,7 @@ namespace CS6510_VirtualMachine_SJB
 
                     scheduleConflict = false;
        
-                }
+                
             }
 
             if (shellString.Contains("errordump"))
@@ -387,6 +393,28 @@ namespace CS6510_VirtualMachine_SJB
                 }
                 Console.WriteLine($"Scheduler set to {VM.scheduler.setSched}");
             }
+
+            if (shellString.Contains("shm"))
+            {
+                string[] inputs = shellString.Split(" ");
+                inputs = inputs.Skip(2).ToArray();
+                listString = inputs.OfType<string>().ToList();
+
+                if (shellString.Contains("open"))
+                {
+                    Console.WriteLine($"Name is {listString[0]}");
+                    Console.WriteLine($"Mode is {listString[1]}");
+                    Console.WriteLine($"Size is {listString[2]}");
+                }
+                if (shellString.Contains("unlink"))
+                {
+                    Console.WriteLine($"Name is {listString[0]}");
+
+                }
+
+            }
+
+          
 
             VM.clock++;
 
