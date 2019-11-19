@@ -4,37 +4,44 @@ using System.Text;
 
 namespace CS6510_VirtualMachine_SJB
 {
-    class Semaphore
+    public class Semaphore
     {
+        public SortedDictionary<string, int> semList;
+
         public Semaphore()
         {
-
+            semList = new SortedDictionary<string, int>();
         }
-
-        public void semInit()
+        public void semInit(string name)
         {
+            if(semList.ContainsKey(name) == false)
+            {
+                semList.Add(name, 0);
+            }
 
         }
-        public void semWait()
+        public bool semWait(string name)
         {
-
+            if ( semList[name] != 0) {
+                semList[name] -= 1;
+                return true;
+            }
+            return false;
         }
-        public void semSignal()
+        public bool semSignal(string name)
         {
-
+            if (semList[name] != 1)
+            {
+                semList[name] += 1;
+                return true;
+            }
+            return false;
         }
-        public void busyWaiting()
+        public void busyWaiting(string condition)
         {
-
+            Console.WriteLine(condition);
         }
-        public void send()
-        {
 
-        }
-        public void receive()
-        {
-
-        }
 
     }
 }

@@ -20,7 +20,7 @@ namespace CS6510_VirtualMachine_SJB
 
         public Scheduler()
         {
-            quantum1 = 10;
+            quantum1 = 9999;
             quantum2 = 20;
         }
 
@@ -52,6 +52,80 @@ namespace CS6510_VirtualMachine_SJB
             }
         }
 
+        public void RR(VirtualMachine VM, Semaphore sem, SharedMemory SM)
+        {
+            List<int> toBeDeleted = new List<int>();
+            List<int> toBePromoted = new List<int>();
+
+
+
+            foreach (KeyValuePair<int, ProcessControlBlock> process in VM.priorityQueue.queue0)
+            {
+                Console.Write(process.Value.PID);
+
+                if (process.Value.processState != (int)ProcessStateEnum.ready)
+                {
+                    process.Value.processState = (int)ProcessStateEnum.waiting;
+                }
+
+            }
+
+            Console.WriteLine();
+
+            foreach (KeyValuePair<int, ProcessControlBlock> runningProcess in VM.priorityQueue.queue0)
+            {
+                runningProcess.Value.processState = (int)ProcessStateEnum.running;
+                runningProcess.Value.endSection = runningProcess.Value.startSection + (quantum1 * BLOCK);
+                if (runningProcess.Value.endSection > runningProcess.Value.endPC)
+                {
+                    VM.priorityQueue.queue0[runningProcess.Key].endSection = runningProcess.Value.endPC;
+                }
+                Execute.executePartial(VM, SM, sem, runningProcess.Key, VM.priorityQueue.queue0);
+                runningProcess.Value.startSection = runningProcess.Value.endSection;
+
+
+                if (VM.priorityQueue.queue0[runningProcess.Key].endSection == runningProcess.Value.endPC)
+                {
+                    VM.priorityQueue.queue0[runningProcess.Key].processState = (int)ProcessStateEnum.terminated;
+                    toBeDeleted.Add(runningProcess.Key);
+                }
+                if (VM.scheduler.setSched == "mfq" && VM.priorityQueue.queue0[runningProcess.Key].processState != (int)ProcessStateEnum.terminated)
+                {
+                    if (VM.priorityQueue.queue0[runningProcess.Key].processState == (int)ProcessStateEnum.running)
+                    {
+                        VM.priorityQueue.queue0[runningProcess.Key].round++;
+                    }
+
+                    if (VM.priorityQueue.queue0[runningProcess.Key].round == 3)
+                    {
+                        VM.priorityQueue.queue0[runningProcess.Key].round = 0;
+                        toBePromoted.Add(runningProcess.Key);
+                    }
+                }
+                if (VM.priorityQueue.queue0[runningProcess.Key].processState != (int)ProcessStateEnum.terminated)
+                {
+                    runningProcess.Value.processState = (int)ProcessStateEnum.waiting;
+                }
+
+
+            }
+            foreach (int id in toBeDeleted)
+            {
+                ProcessControlBlock process = VM.priorityQueue.queue0.FirstOrDefault(x => x.Key == id).Value;
+                process.timeOut = VM.clock;
+                VM.fp.terminatedQueue.Add(id, process);
+                VM.priorityQueue.removeQueue0(id);
+            }
+            foreach (int id in toBePromoted)
+            {
+
+                ProcessControlBlock process = VM.priorityQueue.queue0.FirstOrDefault(x => x.Key == id).Value;
+                VM.priorityQueue.addQueue1(process);
+                VM.priorityQueue.removeQueue0(id);
+                Console.WriteLine($"Process {process.PID} was Promoted");
+            }
+        }
+
         public void RR1(VirtualMachine VM)
         {
             List<int> toBeDeleted = new List<int>();
@@ -80,7 +154,7 @@ namespace CS6510_VirtualMachine_SJB
                 {
                     VM.priorityQueue.queue0[runningProcess.Key].endSection = runningProcess.Value.endPC;
                 }         
-                Execute.executePartial(VM, runningProcess.Key, VM.priorityQueue.queue0);
+ //               Execute.executePartial(VM, sm, sem, runningProcess.Key, VM.priorityQueue.queue0);
                 runningProcess.Value.startSection = runningProcess.Value.endSection;
             
 
@@ -146,7 +220,7 @@ namespace CS6510_VirtualMachine_SJB
                 {
                     VM.priorityQueue.queue1[runningProcess.Key].endSection = runningProcess.Value.endPC;
                 }         
-                Execute.executePartial(VM, runningProcess.Key, VM.priorityQueue.queue1);
+ //               Execute.executePartial(VM, runningProcess.Key, VM.priorityQueue.queue1);
                 runningProcess.Value.startSection = runningProcess.Value.endSection;
 
 

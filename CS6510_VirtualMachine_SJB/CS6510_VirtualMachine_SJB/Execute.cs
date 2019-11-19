@@ -159,7 +159,7 @@ namespace CS6510_VirtualMachine_SJB.Memory
             VM.fp.readyQueue[PID].processState = (int)ProcessStateEnum.terminated;
         }
 
-        public static void executePartial(VirtualMachine VM, int PID, SortedDictionary<int, ProcessControlBlock> queue)
+        public static void executePartial(VirtualMachine VM, SharedMemory sm, Semaphore sem, int PID, SortedDictionary<int, ProcessControlBlock> queue)
         {
 
             for (int i = queue[PID].startSection; i < queue[PID].endSection; i += 6)
@@ -271,8 +271,29 @@ namespace CS6510_VirtualMachine_SJB.Memory
                         }
                         if(kernal == 80)
                         {
+                            //Console.WriteLine("produce");
+                            if(sm.send(sem, "it's working") != true)
+                            {
+                                sem.busyWaiting("Waiting for Consumer");
+                                queue[PID].endSection = i;
+                                queue[PID].processState = (int)ProcessStateEnum.waiting;
+                            }
+                         
+                        
 
                         }
+                        if(kernal == 81)
+                        {
+                            //Console.WriteLine("consume");
+                            if (sm.receive(sem) != true)
+                            {
+                                sem.busyWaiting("Waiting for Producer");
+                                queue[PID].endSection = i;
+                                queue[PID].processState = (int)ProcessStateEnum.waiting;
+                            }
+                            
+                        }
+            
                         break;
                 }
 

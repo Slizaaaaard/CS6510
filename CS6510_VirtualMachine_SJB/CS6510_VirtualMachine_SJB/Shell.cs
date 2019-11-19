@@ -19,6 +19,8 @@ namespace CS6510_VirtualMachine_SJB
         static int pidTemp;
         static List<string> listString = new List<string>();
         static List<int> times = new List<int>();
+        static SharedMemory sm = new SharedMemory();
+        static Semaphore sem = new Semaphore();
 
         public static VirtualMachine VirtualMachine
         {
@@ -118,214 +120,260 @@ namespace CS6510_VirtualMachine_SJB
 
             if (shellString.Contains("execute"))
             {
-                //if (shellString.Contains("-v"))
-                //{
-                    if (shellString.Contains("|"))
-                    {
-                        Console.WriteLine("Pipe");
-                    }
-                    string[] inputs = shellString.Split(" ");
-                    ////Removes Execute
-                    //shellString = shellString.Remove(0, 7);
-                    //shellString = shellString.Trim();
-                    ////Removes Verbose
-                    //shellString = shellString.Remove(0, 2);
-                    //shellString = shellString.Trim();
-                    //// check for space here
-                    //if (shellString.IndexOf(' ') != -1)
-                    //{
-                    //    // separates time in value from file name
-                    //    int.TryParse(shellString.Substring(shellString.IndexOf(' ') + 1), out timeIn);
-                    //    int i = (shellString.IndexOf(' ') + 1);
-                    //    shellString = shellString.Substring(0, i);
-                    //}
-                        
-
-            
-                  
-                    inputs = inputs.Skip(1).ToArray();
-                    listString = inputs.OfType<string>().ToList();
-             
-                    bool ready = true;
-                    int tem = 0;
-                    for (int i = 0; i < listString.Count; i++)
-                    {
-                 
-
-                        if (inputs.Length % 2 == 0) {
-                            ready = false;
-                                if (int.TryParse(listString[i], out timeIn) == true)
-                                {
-
-                                foreach (int entry in times)
-                                {
-                                    if (entry == timeIn)
-                                    {
-                                        Console.WriteLine("Process already scheduled for that time");
-                                        scheduleConflict = true;
-                                    }
-                                }
-                                listString.Remove(listString[i]);
-                                times.Add(timeIn);
-                                ready = true;
-                                }     
-                        }
-                        else
-                        {
-                            timeIn = VM.clock++;
-                            times.Add(timeIn);
-                        }
+                if (shellString.Contains("|"))
+                {
+                    Console.WriteLine("Pipe");
+                }
 
 
-                        if (ready == true && scheduleConflict == false)
-                        {
-                            Console.WriteLine($"Load Program {listString[tem]}");
-                            Console.WriteLine($"Time in {timeIn}");
-                            Load.loadProgram(VM, listString[tem]);
-                            tem++;
-                        }
-                   
-                    }
+                string[] inputs = shellString.Split(" ");
+                shellString = "";
+                inputs = inputs.Skip(1).ToArray();
+                listString = inputs.OfType<string>().ToList();
+                int tem = 0;
+                for (int i = 0; i < 2; i++)
+                {
+                    timeIn = VM.clock++;
+                    times.Add(timeIn);
+                    Console.WriteLine($"Load Program {listString[tem]}");
+                    Load.loadProgram(VM, listString[tem]);
+                    tem++;
+                }
+              
+                inputs = inputs.Skip(4).ToArray();
+                int size;
+                int.TryParse(inputs[2], out size);
+                sm.shmOpen(inputs[0], inputs[1], size);
 
-                    if (scheduleConflict == false)
-                    {
-                        int round = 0;
-                        switch (VM.scheduler.setSched)
-                        {
-                            case "rr1":
-                                Console.WriteLine("Round Robin 1");
-                                VM.priorityQueue.queue0 = VM.fp.readyQueue;
-                                while (VM.priorityQueue.queue0.Count() != 0)
-                                {
-                                    round++;
-                                    Console.WriteLine($"Round {round}");
-                                    VM.scheduler.RR1(VM);                            
-                                }
-                                break;
-                            case "rr2":
-                                Console.WriteLine("Round Robin 2");
-                                VM.priorityQueue.queue1 = VM.fp.readyQueue;
-                                while (VM.priorityQueue.queue1.Count() != 0)
-                                {
-                                    round++;
-                                    Console.WriteLine($"Round {round}");
-                                    VM.scheduler.RR2(VM);
-                                }
-                                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.fp.terminatedQueue)
-                                {
-                                    totalWait = totalWait + process.Value.waitTime;
-                                    turnAround = turnAround + (process.Value.timeOut - process.Value.timeIn);
-                                    response = response + (process.Value.response - process.Value.timeIn);
-                                }
-                                totalWait = totalWait / VM.fp.terminatedQueue.Count();
-                                turnAround = turnAround / VM.fp.terminatedQueue.Count();
-                                response = response / VM.fp.terminatedQueue.Count();
+                inputs = inputs.Skip(5).ToArray();
+                sem.semInit(inputs[0]);
 
-                                Console.WriteLine($"Average Wait {totalWait}");
-                                Console.WriteLine($"Average Turn Around {turnAround}");
-                                Console.WriteLine($"Throughput {(double)VM.fp.terminatedQueue.Count() / (double)VM.clock}");
-                                Console.WriteLine($"Average Response {response}");
-                                break;
+                VM.priorityQueue.queue0 = VM.fp.readyQueue;
+         
+                while (VM.priorityQueue.queue0.Count() != 0)
+                {
+      
+                    VM.scheduler.RR(VM, sem, sm);
 
-                            case "fcfs":
-                                Console.WriteLine("FCFS");
-                                VM.priorityQueue.queue2 = VM.fp.readyQueue;
-                                while (VM.priorityQueue.queue2.Count() != 0)
-                                {
-                                    
-                                    VM.scheduler.FCFS(listString, VM);
-                                }
-
-                                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.fp.terminatedQueue)
-                                {
-                                    totalWait = totalWait + process.Value.waitTime;
-                                    turnAround = turnAround + (process.Value.timeOut - process.Value.timeIn);
-                                    response = response + (process.Value.response - process.Value.timeIn);
-                                }
-                                totalWait = totalWait / VM.fp.terminatedQueue.Count();
-                                turnAround = turnAround / VM.fp.terminatedQueue.Count();
-                                response = response / VM.fp.terminatedQueue.Count();
-
-                                Console.WriteLine($"Average Wait {totalWait}");
-                                Console.WriteLine($"Average Turn Around {turnAround}");
-                                Console.WriteLine($"Throughput {(double)VM.fp.terminatedQueue.Count() / (double)VM.clock}");
-                                Console.WriteLine($"Average Response {response}");
-                                break;
-
-                            case "mfq":
-                                Console.WriteLine("MFQ");
-                                VM.priorityQueue.queue0 = VM.fp.readyQueue;
-                                while (VM.priorityQueue.queue1.Count() != 0 || VM.priorityQueue.queue0.Count() != 0)
-                                {
-                                    round++;
-                                    if(VM.priorityQueue.queue1.Count() != 0)
-                                    {
-                                        Console.WriteLine($"RR2 Round {round}");
-                                        VM.scheduler.RR2(VM);
-                                    }
-                                    if (VM.priorityQueue.queue0.Count() != 0)
-                                    {
-                                        Console.WriteLine($"RR1 Round {round}");
-                                        VM.scheduler.RR1(VM);
-                                   
-                                    }
-                                }
-                                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.fp.terminatedQueue)
-                                {
-                                    totalWait = totalWait + process.Value.waitTime;
-                                    turnAround = turnAround + (process.Value.timeOut - process.Value.timeIn);
-                                    if (process.Value.response != 0)
-                                    {
-                                        response = response + (process.Value.response - process.Value.timeIn);
-                                    }
-                                }
-                                totalWait = totalWait / VM.fp.terminatedQueue.Count();
-                                turnAround = turnAround / VM.fp.terminatedQueue.Count();
-                                response = response / VM.fp.terminatedQueue.Count();
-
-                                Console.WriteLine($"Average Wait {totalWait}");
-                                Console.WriteLine($"Average Turn Around {turnAround}");
-                                Console.WriteLine($"Throughput {(double)VM.fp.terminatedQueue.Count() / (double)VM.clock}");
-                                Console.WriteLine($"Average Response {response}");
-                                break;
-                            case "":
-                                Console.WriteLine("Default to Round Robin");
-
-                                VM.priorityQueue.queue0 = VM.fp.readyQueue;
-                                while (VM.priorityQueue.queue0.Count() != 0)
-                                {
-                                    round++;
-                                    Console.WriteLine($"Round {round}");
-                                    VM.scheduler.RR1(VM);
-                                
-                                }
-                             
-                                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.fp.terminatedQueue)
-                                {
-                                    totalWait = totalWait + process.Value.waitTime;
-                                    turnAround = turnAround + (process.Value.timeOut - process.Value.timeIn);
-                                    if(process.Value.response != 0)
-                                    {
-                                        response = response + (process.Value.response - process.Value.timeIn);
-                                    }
-                               
-                                }
-                                totalWait = totalWait / VM.fp.terminatedQueue.Count();
-                                turnAround = turnAround / VM.fp.terminatedQueue.Count();
-                                response = response / VM.fp.terminatedQueue.Count();
-
-                                Console.WriteLine($"Average Wait {totalWait}");
-                                Console.WriteLine($"Average Turn Around {turnAround}");
-                                Console.WriteLine($"Throughput {(double)VM.fp.terminatedQueue.Count()/(double)VM.clock}");
-                                Console.WriteLine($"Average Response {response}");
-                                break;
-                        }
-                    }
-
-                    scheduleConflict = false;
+                }
        
-                
+
+
             }
+
+            //if (shellString.Contains("execute"))
+            //{
+            //    //if (shellString.Contains("-v"))
+            //    //{
+
+            //    string[] inputs = shellString.Split(" ");
+            //    ////Removes Execute
+            //    //shellString = shellString.Remove(0, 7);
+            //    //shellString = shellString.Trim();
+            //    ////Removes Verbose
+            //    //shellString = shellString.Remove(0, 2);
+            //    //shellString = shellString.Trim();
+            //    //// check for space here
+            //    //if (shellString.IndexOf(' ') != -1)
+            //    //{
+            //    //    // separates time in value from file name
+            //    //    int.TryParse(shellString.Substring(shellString.IndexOf(' ') + 1), out timeIn);
+            //    //    int i = (shellString.IndexOf(' ') + 1);
+            //    //    shellString = shellString.Substring(0, i);
+            //    //}
+
+
+
+
+            //    inputs = inputs.Skip(1).ToArray();
+            //    listString = inputs.OfType<string>().ToList();
+
+            //    bool ready = true;
+            //    int tem = 0;
+            //    for (int i = 0; i < listString.Count; i++)
+            //    {
+
+
+            //        //if (inputs.Length % 2 == 0) {
+            //        //    ready = false;
+            //        //        if (int.TryParse(listString[i], out timeIn) == true)
+            //        //        {
+
+            //        //        foreach (int entry in times)
+            //        //        {
+            //        //            if (entry == timeIn)
+            //        //            {
+            //        //                Console.WriteLine("Process already scheduled for that time");
+            //        //                scheduleConflict = true;
+            //        //            }
+            //        //        }
+            //        //        listString.Remove(listString[i]);
+            //        //        times.Add(timeIn);
+            //        //        ready = true;
+            //        //        }     
+            //        //}
+            //        //else
+            //        //{
+            //        timeIn = VM.clock++;
+            //        times.Add(timeIn);
+            //        //}
+
+
+            //        if (ready == true && scheduleConflict == false)
+            //        {
+            //            Console.WriteLine($"Load Program {listString[tem]}");
+            //            Console.WriteLine($"Time in {timeIn}");
+            //            Load.loadProgram(VM, listString[tem]);
+            //            tem++;
+            //        }
+
+            //    }
+
+            //    if (scheduleConflict == false)
+            //    {
+            //        int round = 0;
+            //        switch (VM.scheduler.setSched)
+            //        {
+            //            case "rr1":
+            //                Console.WriteLine("Round Robin 1");
+            //                VM.priorityQueue.queue0 = VM.fp.readyQueue;
+            //                while (VM.priorityQueue.queue0.Count() != 0)
+            //                {
+            //                    round++;
+            //                    Console.WriteLine($"Round {round}");
+            //                    VM.scheduler.RR1(VM);
+            //                }
+            //                break;
+            //            case "rr2":
+            //                Console.WriteLine("Round Robin 2");
+            //                VM.priorityQueue.queue1 = VM.fp.readyQueue;
+            //                while (VM.priorityQueue.queue1.Count() != 0)
+            //                {
+            //                    round++;
+            //                    Console.WriteLine($"Round {round}");
+            //                    VM.scheduler.RR2(VM);
+            //                }
+            //                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.fp.terminatedQueue)
+            //                {
+            //                    totalWait = totalWait + process.Value.waitTime;
+            //                    turnAround = turnAround + (process.Value.timeOut - process.Value.timeIn);
+            //                    response = response + (process.Value.response - process.Value.timeIn);
+            //                }
+            //                totalWait = totalWait / VM.fp.terminatedQueue.Count();
+            //                turnAround = turnAround / VM.fp.terminatedQueue.Count();
+            //                response = response / VM.fp.terminatedQueue.Count();
+
+            //                Console.WriteLine($"Average Wait {totalWait}");
+            //                Console.WriteLine($"Average Turn Around {turnAround}");
+            //                Console.WriteLine($"Throughput {(double)VM.fp.terminatedQueue.Count() / (double)VM.clock}");
+            //                Console.WriteLine($"Average Response {response}");
+            //                break;
+
+            //            case "fcfs":
+            //                Console.WriteLine("FCFS");
+            //                VM.priorityQueue.queue2 = VM.fp.readyQueue;
+            //                while (VM.priorityQueue.queue2.Count() != 0)
+            //                {
+
+            //                    VM.scheduler.FCFS(listString, VM);
+            //                }
+
+            //                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.fp.terminatedQueue)
+            //                {
+            //                    totalWait = totalWait + process.Value.waitTime;
+            //                    turnAround = turnAround + (process.Value.timeOut - process.Value.timeIn);
+            //                    response = response + (process.Value.response - process.Value.timeIn);
+            //                }
+            //                totalWait = totalWait / VM.fp.terminatedQueue.Count();
+            //                turnAround = turnAround / VM.fp.terminatedQueue.Count();
+            //                response = response / VM.fp.terminatedQueue.Count();
+
+            //                Console.WriteLine($"Average Wait {totalWait}");
+            //                Console.WriteLine($"Average Turn Around {turnAround}");
+            //                Console.WriteLine($"Throughput {(double)VM.fp.terminatedQueue.Count() / (double)VM.clock}");
+            //                Console.WriteLine($"Average Response {response}");
+            //                break;
+
+            //            case "mfq":
+            //                Console.WriteLine("MFQ");
+            //                VM.priorityQueue.queue0 = VM.fp.readyQueue;
+            //                while (VM.priorityQueue.queue1.Count() != 0 || VM.priorityQueue.queue0.Count() != 0)
+            //                {
+            //                    round++;
+            //                    if (VM.priorityQueue.queue1.Count() != 0)
+            //                    {
+            //                        Console.WriteLine($"RR2 Round {round}");
+            //                        VM.scheduler.RR2(VM);
+            //                    }
+            //                    if (VM.priorityQueue.queue0.Count() != 0)
+            //                    {
+            //                        Console.WriteLine($"RR1 Round {round}");
+            //                        VM.scheduler.RR1(VM);
+
+            //                    }
+            //                }
+            //                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.fp.terminatedQueue)
+            //                {
+            //                    totalWait = totalWait + process.Value.waitTime;
+            //                    turnAround = turnAround + (process.Value.timeOut - process.Value.timeIn);
+            //                    if (process.Value.response != 0)
+            //                    {
+            //                        response = response + (process.Value.response - process.Value.timeIn);
+            //                    }
+            //                }
+            //                totalWait = totalWait / VM.fp.terminatedQueue.Count();
+            //                turnAround = turnAround / VM.fp.terminatedQueue.Count();
+            //                response = response / VM.fp.terminatedQueue.Count();
+
+            //                Console.WriteLine($"Average Wait {totalWait}");
+            //                Console.WriteLine($"Average Turn Around {turnAround}");
+            //                Console.WriteLine($"Throughput {(double)VM.fp.terminatedQueue.Count() / (double)VM.clock}");
+            //                Console.WriteLine($"Average Response {response}");
+            //                break;
+            //            case "":
+            //                Console.WriteLine("Default to Round Robin");
+
+            //                VM.priorityQueue.queue0 = VM.fp.readyQueue;
+            //                while (VM.priorityQueue.queue0.Count() != 0)
+            //                {
+            //                    round++;
+            //                    Console.WriteLine($"Round {round}");
+            //                    VM.scheduler.RR1(VM);
+
+            //                }
+
+            //                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.fp.terminatedQueue)
+            //                {
+            //                    totalWait = totalWait + process.Value.waitTime;
+            //                    turnAround = turnAround + (process.Value.timeOut - process.Value.timeIn);
+            //                    if (process.Value.response != 0)
+            //                    {
+            //                        response = response + (process.Value.response - process.Value.timeIn);
+            //                    }
+
+            //                }
+            //                if (VM.fp.terminatedQueue.Count() != 0)
+            //                {
+            //                    totalWait = totalWait / VM.fp.terminatedQueue.Count();
+            //                    turnAround = turnAround / VM.fp.terminatedQueue.Count();
+            //                    response = response / VM.fp.terminatedQueue.Count();
+            //                }
+
+
+            //                Console.WriteLine($"Average Wait {totalWait}");
+            //                Console.WriteLine($"Average Turn Around {turnAround}");
+            //                Console.WriteLine($"Throughput {(double)VM.fp.terminatedQueue.Count() / (double)VM.clock}");
+            //                Console.WriteLine($"Average Response {response}");
+            //                break;
+            //        }
+            //    }
+
+            //    scheduleConflict = false;
+
+
+            //}
+
+
 
             if (shellString.Contains("errordump"))
             {
@@ -402,19 +450,43 @@ namespace CS6510_VirtualMachine_SJB
 
                 if (shellString.Contains("open"))
                 {
-                    Console.WriteLine($"Name is {listString[0]}");
-                    Console.WriteLine($"Mode is {listString[1]}");
-                    Console.WriteLine($"Size is {listString[2]}");
+                    int size;
+                    int.TryParse(listString[2], out size);
+                    sm.shmOpen(listString[0], listString[1], size);
+
                 }
                 if (shellString.Contains("unlink"))
                 {
-                    Console.WriteLine($"Name is {listString[0]}");
-
+                  
+                    sm.shmUnlink(listString[0]);
                 }
-
             }
 
-          
+            if (shellString.Contains("sem"))
+            {
+                string[] inputs = shellString.Split(" ");
+                inputs = inputs.Skip(2).ToArray();
+                listString = inputs.OfType<string>().ToList();
+
+                if (shellString.Contains("init"))
+                {
+                    sem.semInit(listString[0]);
+                }
+                if (shellString.Contains("wait"))
+                {
+                    sem.semWait(listString[0]);
+                }
+                if (shellString.Contains("signal"))
+                {
+                    sem.semSignal(listString[0]);
+                }
+                if (shellString.Contains("busy waiting"))
+                {
+                    sem.busyWaiting(listString[0]);
+                }
+            }
+
+
 
             VM.clock++;
 
