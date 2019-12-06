@@ -27,8 +27,31 @@ namespace CS6510_VirtualMachine_SJB
         public int waitTime = 0;
         public int response = 0;
         public int ioBurst = 0;
+        public string ghant = "";
+        public List<int> pageNumbers = new List<int>(); 
+
+        public void proc()
+        {
+            pageNumbers.Add(1);
+            pageNumbers.Add(4);
+            
+            Console.Write($"Proccess ID {PID}, Pages Numbers ");
+            foreach(int page in pageNumbers)
+            {
+                Console.Write(page);
+            }
+           
+        }
 
         public Scheduler Scheduler
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public SharedMemory SharedMemory
         {
             get => default;
             set

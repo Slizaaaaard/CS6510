@@ -4,9 +4,12 @@ using System.Text;
 
 namespace CS6510_VirtualMachine_SJB.Memory
 {
+
  
     public class Execute
     {
+        static string[] message = new string[10] { "This", "is" , "the", "message", "from", "the" ,"producer", "fin" , "Test", "Test" };
+        static int messageCount = 0;
         static Random number = new Random();
         public static void executeProgram(VirtualMachine VM, int PID)
         {
@@ -152,7 +155,7 @@ namespace CS6510_VirtualMachine_SJB.Memory
                     }
 
                 }
-                Console.Write("\n");
+  //              Console.Write("\n");
             }
             VM.fp.terminatedQueue[PID] = VM.fp.runningQueue[PID];
             VM.fp.terminatedQueue[PID].processState = (int)ProcessStateEnum.terminated;
@@ -272,11 +275,14 @@ namespace CS6510_VirtualMachine_SJB.Memory
                         if(kernal == 80)
                         {
                             //Console.WriteLine("produce");
-                            if(sm.send(sem, "it's working") != true)
+                            if(sm.send(sem, message[messageCount]) != true)
                             {
-                                sem.busyWaiting("Waiting for Consumer");
-                                queue[PID].endSection = i;
-                                queue[PID].processState = (int)ProcessStateEnum.waiting;
+                                sem.busyWaiting("Waiting for Consumer", queue[PID], i);
+                                     
+                            }
+                            else
+                            {
+                                messageCount++;
                             }
                          
                         
@@ -287,9 +293,7 @@ namespace CS6510_VirtualMachine_SJB.Memory
                             //Console.WriteLine("consume");
                             if (sm.receive(sem) != true)
                             {
-                                sem.busyWaiting("Waiting for Producer");
-                                queue[PID].endSection = i;
-                                queue[PID].processState = (int)ProcessStateEnum.waiting;
+                                sem.busyWaiting("Waiting for Producer", queue[PID], i);                            
                             }
                             
                         }
@@ -304,7 +308,7 @@ namespace CS6510_VirtualMachine_SJB.Memory
                     switch (process.Value.processState)
                     {
                         case (int)ProcessStateEnum.waiting:
-                            Console.Write("W");
+                            process.Value.ghant = process.Value.ghant + "W";
                             process.Value.waitTime++;
                             break;
                         case (int)ProcessStateEnum.running:
@@ -324,21 +328,20 @@ namespace CS6510_VirtualMachine_SJB.Memory
                             }
                             else
                             {
-                                Console.Write("R");
+                                process.Value.ghant = process.Value.ghant + "R";
                             }
                           
                             break;
                         case (int)ProcessStateEnum.terminated:
-                            Console.Write("T");
+                            process.Value.ghant = process.Value.ghant + "T";
                             break;
                         case (int)ProcessStateEnum.ready:
-                            Console.Write("N");
+                            process.Value.ghant = process.Value.ghant + "N";
                             process.Value.response = VM.clock + 1;
                             break;
                     }
                     
                 }
-                Console.Write("\n");
             }
 
        

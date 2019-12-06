@@ -21,7 +21,8 @@ namespace CS6510_VirtualMachine_SJB
         public PriorityQueue priorityQueue;
         public Scheduler scheduler;
         public SharedMemory sharedMemory;
-
+        public Page page = new Page();
+        public CPU cpu = new CPU();
 
         public VirtualMachine()
         {

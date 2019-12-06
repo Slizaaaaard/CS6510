@@ -148,12 +148,33 @@ namespace CS6510_VirtualMachine_SJB
 
         static void loadExpression(VirtualMachine VM, BinaryReader br, byte Byte)
         {
+
+            List<int> temp = new List<int>();
+            temp.Add(Byte);
             VM.MEM[VM.loaderAddress++] = Byte;
-            VM.MEM[VM.loaderAddress++] = br.ReadByte();
-            VM.MEM[VM.loaderAddress++] = br.ReadByte();
-            VM.MEM[VM.loaderAddress++] = br.ReadByte();
-            VM.MEM[VM.loaderAddress++] = br.ReadByte();
-            VM.MEM[VM.loaderAddress++] = br.ReadByte();
+
+            Byte = br.ReadByte();
+            temp.Add(Byte);
+            VM.MEM[VM.loaderAddress++] = Byte;
+
+            Byte = br.ReadByte();
+            temp.Add(Byte);
+            VM.MEM[VM.loaderAddress++] = Byte;
+
+            Byte = br.ReadByte();
+            temp.Add(Byte);
+            VM.MEM[VM.loaderAddress++] = Byte;
+
+            Byte = br.ReadByte();
+            temp.Add(Byte);
+            VM.MEM[VM.loaderAddress++] = Byte;
+
+            Byte = br.ReadByte();
+            temp.Add(Byte);
+            VM.MEM[VM.loaderAddress++] = Byte;
+
+            VM.page.add(temp.ToArray());
+        
         }
 
   

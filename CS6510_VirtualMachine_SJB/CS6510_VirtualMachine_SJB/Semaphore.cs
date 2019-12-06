@@ -37,9 +37,11 @@ namespace CS6510_VirtualMachine_SJB
             }
             return false;
         }
-        public void busyWaiting(string condition)
+        public void busyWaiting(string condition,  ProcessControlBlock queue , int i)
         {
             Console.WriteLine(condition);
+            queue.startSection = i;
+            queue.endSection = i + 1;
         }
 
 

@@ -21,6 +21,7 @@ namespace CS6510_VirtualMachine_SJB
         static List<int> times = new List<int>();
         static SharedMemory sm = new SharedMemory();
         static Semaphore sem = new Semaphore();
+    
 
         public static VirtualMachine VirtualMachine
         {
@@ -39,6 +40,14 @@ namespace CS6510_VirtualMachine_SJB
         }
 
         public static Execute Execute
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public static Semaphore Semaphore
         {
             get => default;
             set
@@ -70,32 +79,63 @@ namespace CS6510_VirtualMachine_SJB
 
             if (shellString.Contains("load"))
             {
-
-                if (shellString.Contains("-v"))
-                {
-                    shellString = shellString.Remove(0, 4);
-                    shellString = shellString.Trim();
-                    shellString = shellString.Remove(0, 2);
-                    shellString = shellString.Trim();
-                    Load.loadProgram(VM, shellString);
-                }
-
+                    string[] inputs = shellString.Split(" ");
+                    inputs = inputs.Skip(1).ToArray();
+                    foreach (string input in inputs){
+                    Load.loadProgram(VM, input);
+                    }
             }
 
             if (shellString.Contains("run"))
             {
-                if (shellString.Contains("-v"))
+                string[] inputs = shellString.Split(" ");
+                inputs = inputs.Skip(1).ToArray();
+                foreach (string input in inputs)
                 {
-                    shellString = shellString.Remove(0, 3);
-                    shellString = shellString.Trim();
-                    shellString = shellString.Remove(0, 2);
-                    shellString = shellString.Trim();
-                    Console.WriteLine($"Execute Program {shellString}");
-                    pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == shellString).Key;
-                    
-                   Execute.executeProgram(VM, pidTemp);
+                    Console.WriteLine($"Execute Program {input}");
+                    pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == input).Key;
+                    Execute.executeProgram(VM, pidTemp);
                 }
             }
+            if (shellString.Contains("setpagesize"))
+            {
+                string[] inputs = shellString.Split(" ");
+                inputs = inputs.Skip(1).ToArray();
+                VM.page.setPageSize(int.Parse(inputs[0]));
+            }
+            if (shellString.Contains("getpagesize"))
+            {
+                Console.WriteLine($"Page size is {VM.page.getPageSize()}");
+            }
+            if (shellString.Contains("setpagenumber"))
+            {
+                string[] inputs = shellString.Split(" ");
+                inputs = inputs.Skip(1).ToArray();
+                VM.page.setPageNumber(int.Parse(inputs[0]));
+            }
+
+            if (shellString.Contains("ps"))
+            {
+                if (shellString.Contains("-free"))
+                {
+                    VM.page.free();
+                }
+
+                if (shellString.Contains("-proc"))
+                {
+                    string[] inputs = shellString.Split(" ");
+                    inputs = inputs.Skip(2).ToArray();
+                    VM.page.proc();
+
+                        pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == inputs[0]).Key;
+                      
+                            VM.fp.readyQueue[pidTemp].proc();
+               
+
+           
+                }
+            }
+
 
             if (shellString.Contains("coredump"))
             {
@@ -120,10 +160,7 @@ namespace CS6510_VirtualMachine_SJB
 
             if (shellString.Contains("execute"))
             {
-                if (shellString.Contains("|"))
-                {
-                    Console.WriteLine("Pipe");
-                }
+             
 
 
                 string[] inputs = shellString.Split(" ");
@@ -149,15 +186,19 @@ namespace CS6510_VirtualMachine_SJB
                 sem.semInit(inputs[0]);
 
                 VM.priorityQueue.queue0 = VM.fp.readyQueue;
-         
+                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.priorityQueue.queue0)
+                {
+                    process.Value.ghant = process.Value.PID.ToString();
+                }
                 while (VM.priorityQueue.queue0.Count() != 0)
                 {
-      
                     VM.scheduler.RR(VM, sem, sm);
-
                 }
-       
 
+                foreach (KeyValuePair<int, ProcessControlBlock> process in VM.fp.terminatedQueue)
+                {
+                    Console.WriteLine(process.Value.ghant);
+                }
 
             }
 
@@ -471,6 +512,7 @@ namespace CS6510_VirtualMachine_SJB
                 if (shellString.Contains("init"))
                 {
                     sem.semInit(listString[0]);
+                    Console.WriteLine($"Semaphore {listString[0]} Created");
                 }
                 if (shellString.Contains("wait"))
                 {
@@ -482,7 +524,7 @@ namespace CS6510_VirtualMachine_SJB
                 }
                 if (shellString.Contains("busy waiting"))
                 {
-                    sem.busyWaiting(listString[0]);
+                    Console.WriteLine(listString[0]);
                 }
             }
 

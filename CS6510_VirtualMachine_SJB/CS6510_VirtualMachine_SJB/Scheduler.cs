@@ -61,7 +61,6 @@ namespace CS6510_VirtualMachine_SJB
 
             foreach (KeyValuePair<int, ProcessControlBlock> process in VM.priorityQueue.queue0)
             {
-                Console.Write(process.Value.PID);
 
                 if (process.Value.processState != (int)ProcessStateEnum.ready)
                 {
@@ -69,8 +68,6 @@ namespace CS6510_VirtualMachine_SJB
                 }
 
             }
-
-            Console.WriteLine();
 
             foreach (KeyValuePair<int, ProcessControlBlock> runningProcess in VM.priorityQueue.queue0)
             {
@@ -81,7 +78,7 @@ namespace CS6510_VirtualMachine_SJB
                     VM.priorityQueue.queue0[runningProcess.Key].endSection = runningProcess.Value.endPC;
                 }
                 Execute.executePartial(VM, SM, sem, runningProcess.Key, VM.priorityQueue.queue0);
-                runningProcess.Value.startSection = runningProcess.Value.endSection;
+  //              runningProcess.Value.startSection = runningProcess.Value.endSection;
 
 
                 if (VM.priorityQueue.queue0[runningProcess.Key].endSection == runningProcess.Value.endPC)
@@ -220,7 +217,7 @@ namespace CS6510_VirtualMachine_SJB
                 {
                     VM.priorityQueue.queue1[runningProcess.Key].endSection = runningProcess.Value.endPC;
                 }         
- //               Execute.executePartial(VM, runningProcess.Key, VM.priorityQueue.queue1);
+ //             Execute.executePartial(VM, runningProcess.Key, VM.priorityQueue.queue1);
                 runningProcess.Value.startSection = runningProcess.Value.endSection;
 
 
