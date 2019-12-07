@@ -35,11 +35,12 @@ namespace CS6510_VirtualMachine_SJB
             pageNumbers.Add(1);
             pageNumbers.Add(4);
             
-            Console.Write($"Proccess ID {PID}, Pages Numbers ");
+            Console.Write($"Proccess ID {PID}, Pages Numbers");
             foreach(int page in pageNumbers)
             {
-                Console.Write(page);
+                Console.Write($" page ");
             }
+            Console.WriteLine($"Status {processState}");
            
         }
 

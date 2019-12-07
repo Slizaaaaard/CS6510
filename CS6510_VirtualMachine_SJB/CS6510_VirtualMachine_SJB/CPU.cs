@@ -11,9 +11,9 @@ namespace CS6510_VirtualMachine_SJB
         {
 
         }
-        static void getLogicalAddress()
+        static void getLogicalAddress(int pageNumber, int offset)
         {
-
+            //page number + offset
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CS6510_VirtualMachine_SJB
@@ -8,51 +9,73 @@ namespace CS6510_VirtualMachine_SJB
     {
         public int pageSize;
         public int pageNumber;
+        public int index = 0; 
         const int MEM = 100;
+
 
         public Page()
         {
             pageSize = 10;
             pageNumber = 0;
-            List<int[]> temp = new List<int[]>();
-            memory.Add(temp);
+    
 
         }
 
         public List<List<int[]>> memory = new List<List<int[]>>();
         public SortedDictionary<int, int> dirtyBit = new SortedDictionary<int, int>();
         public SortedDictionary<int, int> referenceBit = new SortedDictionary<int, int>();
-
+        public SortedDictionary<int, int> validInvalidBit = new SortedDictionary<int, int>();
         public void add(int[] word)
         {
-            if((MEM - (memory.Count * pageNumber)) > 0)
+            if((MEM - (memory.Count * pageSize + pageSize)) >= 0)
             {
-                if(pageNumber != 0)
+
+                if(memory.Count != 0)
                 {
                     if (memory[pageNumber].Count < pageSize)
+                    { 
+                            memory[pageNumber].Add(word);
+                    }
+                    else
                     {
-                        memory[pageNumber].Add(word);
+                        List<int[]> temp = new List<int[]>();
+                        memory.Add(temp);
+                        pageNumber++;
+                        dirtyBit.Add(pageNumber, 0);
+                        referenceBit.Add(pageNumber, pageNumber);
+                        validInvalidBit.Add(pageNumber, 0);
+                      
                     }
                 }
                 else
                 {
-                 
-                    pageNumber += 1;
+                    dirtyBit.Add(pageNumber, 0);
+                    referenceBit.Add(pageNumber, pageNumber);
+                    validInvalidBit.Add(pageNumber, 0);
                     List<int[]> temp = new List<int[]>();
                     memory.Add(temp);
-                    referenceBit.Add(pageNumber, pageNumber);
                     memory[pageNumber].Add(word);
+                 
                 }
             }
             else
             {
                 replacePage();
             }
+        
         }
 
         public void replacePage()
         {
-       
+        
+            int temp = 0;
+            if(dirtyBit.ContainsValue(0) == true)
+            {
+                temp = referenceBit.Values.Min();
+          
+
+            }
+            Console.WriteLine("Replaced Page");
         }
 
         public void free()
