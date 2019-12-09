@@ -9,34 +9,63 @@ namespace CS6510_VirtualMachine_SJB
     {
         public int pageSize;
         public int pageNumber;
-        public int index = 0; 
+        public int index = 0;
         const int MEM = 100;
-
+        public int nextPage = 0;
+        public int nextOffset = 0;
+        public bool replaced = false; 
 
         public Page()
         {
             pageSize = 10;
             pageNumber = 0;
-    
-
         }
 
         public List<List<int[]>> memory = new List<List<int[]>>();
         public SortedDictionary<int, int> dirtyBit = new SortedDictionary<int, int>();
         public SortedDictionary<int, int> referenceBit = new SortedDictionary<int, int>();
         public SortedDictionary<int, int> validInvalidBit = new SortedDictionary<int, int>();
-        public void add(int[] word)
+
+        public int getNextPage(VirtualMachine vm)
         {
-            if((MEM - (memory.Count * pageSize + pageSize)) >= 0)
+            if(nextPage < memory.Count() - 1 && replaced == false)
+                {
+                    return nextPage + 1;
+            }
+            else
+            {
+                int location = vm.cpu.logicalToPhysical(nextPage, nextOffset) + 6;
+                int replaced = replacePage();
+                loadNextPage(location, vm, replaced);
+                return replaced;
+            }
+        }
+
+        public void loadNextPage(int location, VirtualMachine vm, int replaced)
+        {
+            for(int i = 0; i < pageSize; i++)
+            {
+                List<int> temp = new List<int>();
+                for(int j = 0; j < 6; j++)
+                {
+                    temp.Add(vm.MEM[location]);
+                }
+                memory[replaced].Add(temp.ToArray());
+            }  
+        }
+
+        public void add(int[] word, int location, VirtualMachine vm)
+        {
+            if((MEM - (memory.Count * pageSize)) >= 0)
             {
 
-                if(memory.Count != 0)
+                if (memory.Count != 0)
                 {
                     if (memory[pageNumber].Count < pageSize)
-                    { 
-                            memory[pageNumber].Add(word);
+                    {
+                        memory[pageNumber].Add(word);
                     }
-                    else
+                    else if((MEM - (memory.Count * pageSize + pageSize)) >= 0)
                     {
                         List<int[]> temp = new List<int[]>();
                         memory.Add(temp);
@@ -44,10 +73,11 @@ namespace CS6510_VirtualMachine_SJB
                         dirtyBit.Add(pageNumber, 0);
                         referenceBit.Add(pageNumber, pageNumber);
                         validInvalidBit.Add(pageNumber, 0);
-                      
+                        vm.cpu.pageTable.Add(location);
+
                     }
                 }
-                else
+                else 
                 {
                     dirtyBit.Add(pageNumber, 0);
                     referenceBit.Add(pageNumber, pageNumber);
@@ -55,27 +85,51 @@ namespace CS6510_VirtualMachine_SJB
                     List<int[]> temp = new List<int[]>();
                     memory.Add(temp);
                     memory[pageNumber].Add(word);
-                 
+                    vm.cpu.pageTable.Add(location);
+                    // use for replace
+                    //vm.cpu.pageTable[pageNumber] = location;
+
+                }
+            }
+   
+        
+        }
+
+        public int replacePage()
+        {
+            int temp = 0;
+            bool found = false;
+            if(dirtyBit.ContainsValue(0) == true)
+            {
+                while(found == false)
+                {
+                    var valueList = referenceBit.ToList();
+                    valueList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
+
+                    temp = valueList[0].Key;
+                  
+            
+                    if (dirtyBit[temp] == 0)
+                    {
+                        memory[temp] = new List<int[]>();
+                        referenceBit[temp] = (referenceBit.Values.Max() + 1);
+                        found = true;
+                    }
+                    else
+                    {
+                        referenceBit[temp] = (referenceBit.Values.Max() + 1);
+                    }
                 }
             }
             else
             {
-                replacePage();
-            }
-        
-        }
-
-        public void replacePage()
-        {
-        
-            int temp = 0;
-            if(dirtyBit.ContainsValue(0) == true)
-            {
                 temp = referenceBit.Values.Min();
-          
-
+                memory[temp] = new List<int[]>();
+                referenceBit[temp] = (referenceBit.Values.Max() + 1);
             }
-            Console.WriteLine("Replaced Page");
+            Console.WriteLine($"Replaced Page {temp}");
+            replaced = true;
+            return temp;
         }
 
         public void free()

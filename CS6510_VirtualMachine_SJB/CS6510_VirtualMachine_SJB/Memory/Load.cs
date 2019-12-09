@@ -173,7 +173,7 @@ namespace CS6510_VirtualMachine_SJB
             temp.Add(Byte);
             VM.MEM[VM.loaderAddress++] = Byte;
 
-            VM.page.add(temp.ToArray());
+            VM.page.add(temp.ToArray(), VM.loaderAddress - 6, VM);
         
         }
 

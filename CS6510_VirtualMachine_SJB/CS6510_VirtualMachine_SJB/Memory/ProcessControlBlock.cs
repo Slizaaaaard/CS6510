@@ -27,6 +27,7 @@ namespace CS6510_VirtualMachine_SJB
         public int waitTime = 0;
         public int response = 0;
         public int ioBurst = 0;
+        public int lastLoad = 0;
         public string ghant = "";
         public List<int> pageNumbers = new List<int>(); 
 

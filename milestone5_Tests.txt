@@ -1,0 +1,202 @@
+#Download and Extract Zip Folder
+
+##Create an osx file using a.asm b.asm c.asm c.asm.exe
+#Open Command prompt
+#Open to path C:\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1
+#In Command Prompt type: 
+osx.exe a.asm 100 
+osx.exe b.asm 100 
+osx.exe c.asm 100 
+osx.exe d.asm 100
+#Pass Case:
+#In path C:\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1 
+#Pass Case:
+#You should have 4 files named
+a.asm
+b.asm
+c.asm
+d.asm
+
+###MileStone 5 Acceptance Testing
+### Acceptance Testing #1 Expected Results ###
+VM->load a.osx b.osx c.osx
+VM->
+### Acceptance Testing #2 Expected Results ###
+VM->run a.osx b.osx c.osx
+Execute Program a.osx
+Adding Contents 2 From Register 1 With Contents  3 From Register 2 Into Register 0
+Register 0's Contents 5
+Multiplying Contents 2 From Register 1 With Contents  3 From Register 2 Into Register 0
+Register 0's Contents 6
+Execute Program b.osx
+Adding Contents 2 From Register 1 With Contents  3 From Register 2 Into Register 0
+Register 0's Contents 5
+Multiplying Contents 2 From Register 1 With Contents  3 From Register 2 Into Register 0
+Register 0's Contents 6
+Dividing Contents 5 From Register 4 With Contents  6 From Register 5 Into Register 2
+Register 2's Contents 0
+Execute Program c.osx
+Adding Contents 2 From Register 1 With Contents  0 From Register 2 Into Register 0
+Register 0's Contents 2
+Dividing Contents 5 From Register 4 With Contents  6 From Register 5 Into Register 2
+Register 2's Contents 0
+VM->
+### Acceptance Testing #3 Expected Results ###
+VM->setpagesize 5
+VM->
+### Acceptance Testing #4 Expected Results ###
+VM->getpagesize
+Page size is 5
+### Acceptance Testing #5 Expected Results ###
+VM->setpagenumber 6
+### Acceptance Testing #6 Expected Results ###
+VM->ps -proc 1
+Used Memory is 900, Total Memory is 100
+Proccess ID 0, Pages Numbers page  page Status 5
+VM->ps -free
+Free Memory Size 60 Bytes, Free Pages 0
+### Acceptance Testing #7 Expected Results ###
+VM->load a.osx b.osx c.osx
+VM->run a.osx b.osx c.osx
+Execute Program a.osx
+Adding Contents 2 From Register 1 With Contents  3 From Register 2 Into Register 0
+Register 0's Contents 5
+Multiplying Contents 2 From Register 1 With Contents  3 From Register 2 Into Register 0
+Register 0's Contents 6
+Execute Program b.osx
+Adding Contents 2 From Register 1 With Contents  3 From Register 2 Into Register 0
+Register 0's Contents 5
+Multiplying Contents 2 From Register 1 With Contents  3 From Register 2 Into Register 0
+Register 0's Contents 6
+Dividing Contents 5 From Register 4 With Contents  6 From Register 5 Into Register 2
+Register 2's Contents 0
+Execute Program c.osx
+Adding Contents 2 From Register 1 With Contents  0 From Register 2 Into Register 0
+Register 0's Contents 2
+Dividing Contents 5 From Register 4 With Contents  6 From Register 5 Into Register 2
+Register 2's Contents 0
+VM->ps -proc 1
+Used Memory is 900, Total Memory is 100
+Proccess ID 0, Pages Numbers page  page Status 5
+VM->ps -free
+Free Memory Size 60 Bytes, Free Pages 0
+VM->load a.osx b.osx c.osx d.osx
+VM->run a.osx b.osx c.osx d.osx
+Execute Program a.osx
+Translating Logical Address 9, 0 to Physical Address 588
+Replaced Page 0
+Translating Logical Address 0, 0 to Physical Address 0
+Replaced Page 1
+Translating Logical Address 1, 0 to Physical Address 60
+Replaced Page 2
+Execute Program b.osx
+Translating Logical Address 2, 0 to Physical Address 126
+Replaced Page 3
+Translating Logical Address 3, 0 to Physical Address 192
+Replaced Page 4
+Translating Logical Address 4, 0 to Physical Address 258
+Replaced Page 5
+Execute Program c.osx
+Translating Logical Address 5, 0 to Physical Address 324
+Replaced Page 6
+Translating Logical Address 6, 0 to Physical Address 390
+Replaced Page 7
+Translating Logical Address 7, 0 to Physical Address 456
+Replaced Page 8
+Translating Logical Address 8, 0 to Physical Address 522
+Replaced Page 9
+Execute Program d.osx
+Translating Logical Address 9, 0 to Physical Address 588
+Replaced Page 0
+Translating Logical Address 0, 0 to Physical Address 0
+Replaced Page 1
+Translating Logical Address 1, 0 to Physical Address 60
+Replaced Page 2
+Translating Logical Address 2, 0 to Physical Address 126
+Replaced Page 3
+Translating Logical Address 3, 0 to Physical Address 192
+Replaced Page 4
+Translating Logical Address 4, 0 to Physical Address 258
+Replaced Page 5
+Translating Logical Address 5, 0 to Physical Address 324
+Replaced Page 6
+Translating Logical Address 6, 0 to Physical Address 390
+Replaced Page 7
+Translating Logical Address 7, 0 to Physical Address 456
+Replaced Page 8
+Translating Logical Address 8, 0 to Physical Address 522
+Replaced Page 9
+Translating Logical Address 9, 0 to Physical Address 588
+Replaced Page 0
+Translating Logical Address 0, 0 to Physical Address 0
+Replaced Page 1
+Translating Logical Address 1, 0 to Physical Address 60
+Replaced Page 2
+Translating Logical Address 2, 0 to Physical Address 126
+Replaced Page 3
+Translating Logical Address 3, 0 to Physical Address 192
+Replaced Page 4
+Translating Logical Address 4, 0 to Physical Address 258
+Replaced Page 5
+Translating Logical Address 5, 0 to Physical Address 324
+Replaced Page 6
+Translating Logical Address 6, 0 to Physical Address 390
+Replaced Page 7
+Translating Logical Address 7, 0 to Physical Address 456
+Replaced Page 8
+Translating Logical Address 8, 0 to Physical Address 522
+Replaced Page 9
+Translating Logical Address 9, 0 to Physical Address 588
+Replaced Page 0
+Translating Logical Address 0, 0 to Physical Address 0
+Replaced Page 1
+Translating Logical Address 1, 0 to Physical Address 60
+Replaced Page 2
+Translating Logical Address 2, 0 to Physical Address 126
+Replaced Page 3
+Translating Logical Address 3, 0 to Physical Address 192
+Replaced Page 4
+Translating Logical Address 4, 0 to Physical Address 258
+Replaced Page 5
+Translating Logical Address 5, 0 to Physical Address 324
+Replaced Page 6
+Translating Logical Address 6, 0 to Physical Address 390
+Replaced Page 7
+Translating Logical Address 7, 0 to Physical Address 456
+Replaced Page 8
+Translating Logical Address 8, 0 to Physical Address 522
+Replaced Page 9
+Translating Logical Address 9, 0 to Physical Address 588
+Replaced Page 0
+Translating Logical Address 0, 0 to Physical Address 0
+Replaced Page 1
+Translating Logical Address 1, 0 to Physical Address 60
+Replaced Page 2
+Translating Logical Address 2, 0 to Physical Address 126
+Replaced Page 3
+Translating Logical Address 3, 0 to Physical Address 192
+Replaced Page 4
+Translating Logical Address 4, 0 to Physical Address 258
+Replaced Page 5
+Translating Logical Address 5, 0 to Physical Address 324
+Replaced Page 6
+Translating Logical Address 6, 0 to Physical Address 390
+Replaced Page 7
+Translating Logical Address 7, 0 to Physical Address 456
+Replaced Page 8
+Translating Logical Address 8, 0 to Physical Address 522
+Replaced Page 9
+Translating Logical Address 9, 0 to Physical Address 588
+Replaced Page 0
+Translating Logical Address 0, 0 to Physical Address 0
+Replaced Page 1
+Translating Logical Address 1, 0 to Physical Address 60
+Replaced Page 2
+Translating Logical Address 2, 0 to Physical Address 126
+Replaced Page 3
+Translating Logical Address 3, 0 to Physical Address 192
+Replaced Page 4
+Translating Logical Address 4, 0 to Physical Address 258
+Replaced Page 5
+Translating Logical Address 5, 0 to Physical Address 324
+Replaced Page 6

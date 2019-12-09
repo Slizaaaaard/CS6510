@@ -39,14 +39,6 @@ namespace CS6510_VirtualMachine_SJB
             }
         }
 
-        public static Execute Execute
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         public static Semaphore Semaphore
         {
             get => default;
@@ -94,7 +86,7 @@ namespace CS6510_VirtualMachine_SJB
                 {
                     Console.WriteLine($"Execute Program {input}");
                     pidTemp = VM.fp.readyQueue.FirstOrDefault(x => x.Value.programFileName == input).Key;
-                    Execute.executeProgram(VM, pidTemp);
+                    Execute.executePageProgram(VM, pidTemp);
                 }
             }
             if (shellString.Contains("setpagesize"))
@@ -160,9 +152,6 @@ namespace CS6510_VirtualMachine_SJB
 
             if (shellString.Contains("execute"))
             {
-             
-
-
                 string[] inputs = shellString.Split(" ");
                 shellString = "";
                 inputs = inputs.Skip(1).ToArray();
