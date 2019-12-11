@@ -25,5 +25,13 @@ namespace CS6510_VirtualMachine_SJB
             {
             }
         }
+
+        public static VirtualMachine VirtualMachine
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

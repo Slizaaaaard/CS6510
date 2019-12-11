@@ -37,5 +37,29 @@ namespace CS6510_VirtualMachine_SJB
             priorityQueue = new PriorityQueue();
             sharedMemory = new SharedMemory();
         }
+
+        internal Load Load
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Memory.Execute Execute
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Semaphore Semaphore
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

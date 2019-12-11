@@ -1,16 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="CS6510_VirtualMachine_SJB.VirtualMachine">
-    <Position X="3.25" Y="1.5" Width="1.5" />
+    <Position X="4.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgIACAAAAAAIQAAAAEEAAAAAAABAIDAARACAAAAAAQ=</HashCode>
+      <HashCode>AAgIgCAAAAAAIQQAEAEEAAAAAEABAIDAAZACAAAAAAQ=</HashCode>
       <FileName>Virtual Machine\VirtualMachine.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Load" />
+      <Property Name="Execute" />
+      <Property Name="Semaphore" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="CS6510_VirtualMachine_SJB.ProcessControlBlock" Collapsed="true">
     <Position X="9.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAAAKBBQAOGaCAAAAMABAIAAAwIAAACAAAA=</HashCode>
+      <HashCode>AAEAAEAAAAAAKBBQAOGaCAAAAMABBIAAAwIAAACCAAA=</HashCode>
       <FileName>Memory\ProcessControlBlock.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -18,22 +23,22 @@
       <Property Name="SharedMemory" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.Load" Collapsed="true">
-    <Position X="6.75" Y="2" Width="1.5" />
+  <Class Name="CS6510_VirtualMachine_SJB.Load">
+    <Position X="8" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>Memory\Load.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.Memory.Execute" Collapsed="true">
-    <Position X="6.75" Y="2.75" Width="1.5" />
+  <Class Name="CS6510_VirtualMachine_SJB.Memory.Execute">
+    <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAQAAAAAAAAAAJAAAAAABAAAAAAAAAAGA=</HashCode>
+      <HashCode>AQAAAIAAAAAAQAAAAAAAAAAJAAAAAABAAAAAAAAAAGA=</HashCode>
       <FileName>Execute.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CS6510_VirtualMachine_SJB.Scheduler" Collapsed="true">
-    <Position X="10.25" Y="6.25" Width="1.5" />
+    <Position X="11.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAgAAAAAAQAAAABAQAAIAAAAAABAAAAAIAA=</HashCode>
       <FileName>Scheduler.cs</FileName>
@@ -42,12 +47,13 @@
   <Class Name="CS6510_VirtualMachine_SJB.MemoryManagement" Collapsed="true">
     <Position X="6.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAAAAAAAEAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IAAAAAAAAAAAAAAAAAEAAAAAAIAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Memory\MemoryManagement.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ProcessControlBlock" />
       <Property Name="PriorityQueue" />
+      <Property Name="VirtualMachine" />
     </ShowAsAssociation>
   </Class>
   <Class Name="CS6510_VirtualMachine_SJB.PriorityQueue" Collapsed="true">
@@ -60,15 +66,15 @@
       <Property Name="Scheduler" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.SharedMemory" Collapsed="true">
-    <Position X="12" Y="4.25" Width="1.5" />
+  <Class Name="CS6510_VirtualMachine_SJB.SharedMemory">
+    <Position X="12.25" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAAAAQAAAAAQAAAAIIAABAAAAAAAAEAIAAAA=</HashCode>
       <FileName>SharedMemory.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CS6510_VirtualMachine_SJB.Semaphore" Collapsed="true">
-    <Position X="6.75" Y="3.5" Width="1.5" />
+  <Class Name="CS6510_VirtualMachine_SJB.Semaphore">
+    <Position X="6.25" Y="2" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAACAACAAIAAAAAAAAGAAAAA=</HashCode>
       <FileName>Semaphore.cs</FileName>
