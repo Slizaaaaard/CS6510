@@ -1,0 +1,61 @@
+byteSize(203) PC(5) Loader(100)
+1:0: plus .BYTE '+' (43)  ; osX Assembler in Verbose Mode
+2:1: minus .BYTE '-' (45)  ; osX Assembler in Verbose Mode
+3:2: equal .BYTE '=' (61)  ; osX Assembler in Verbose Mode
+4:3: times .BYTE '*' (42)  ; osX Assembler in Verbose Mode
+5:4: divide .BYTE '/' (47)  ; osX Assembler in Verbose Mode
+6:5: ; osX Assembler in Verbose Mode
+7:5: ; osX Assembler in Verbose Mode
+8:5: MVI (22)  R2 (2)  7 (7)  ; osX Assembler in Verbose Mode
+9:11: MVI (22)  R0 (0)  7 (7)  ; osX Assembler in Verbose Mode
+10:17: SWI (20)  1 (1)   ; osX Assembler in Verbose Mode
+11:23: ; osX Assembler in Verbose Mode
+12:23: ADR (0)  R3 (3)  plus (0) ; osX Assembler in Verbose Mode
+13:29: LDRB (5)  R0 (0)  [R3] (3)     ; osX Assembler in Verbose Mode
+14:35: SWI (20)  2 (2)   ; osX Assembler in Verbose Mode
+15:41: ; osX Assembler in Verbose Mode
+16:41: MVI (22)  R1 (1)  2 (2)  ; osX Assembler in Verbose Mode
+17:47: MVI (22)  R0 (0)  2 (2)  ; osX Assembler in Verbose Mode
+18:53: SWI (20)  1 (1)   ; osX Assembler in Verbose Mode
+19:59: ; osX Assembler in Verbose Mode
+20:59: ADR (0)  R3 (3)  equal (2) ; osX Assembler in Verbose Mode
+21:65: LDRB (5)  R0 (0)  [R3] (3)     ; osX Assembler in Verbose Mode
+22:71: SWI (20)  2 (2)   ; osX Assembler in Verbose Mode
+23:77: ; osX Assembler in Verbose Mode
+24:77: ADD (16)  R0 (0)  R1 (1)  R2 (2)    ; osX Assembler in Verbose Mode
+25:83: SWI (20)  1 (1)   ; osX Assembler in Verbose Mode
+26:89: ; osX Assembler in Verbose Mode
+27:89: MVI (22)  R0 (0)  10 (10)  ; osX Assembler in Verbose Mode
+28:95: SWI (20)  2 (2)   ; osX Assembler in Verbose Mode
+29:101: ; osX Assembler in Verbose Mode
+30:101: ; osX Assembler in Verbose Mode
+31:101: MVI (22)  R2 (2)  7 (7)  ; osX Assembler in Verbose Mode
+32:107: MVI (22)  R0 (0)  7 (7)  ; osX Assembler in Verbose Mode
+33:113: SWI (20)  1 (1)   ; osX Assembler in Verbose Mode
+34:119: ; osX Assembler in Verbose Mode
+35:119: ADR (0)  R3 (3)  times (3) ; osX Assembler in Verbose Mode
+36:125: LDRB (5)  R0 (0)  [R3] (3)     ; osX Assembler in Verbose Mode
+37:131: SWI (20)  2 (2)   ; osX Assembler in Verbose Mode
+38:137: ; osX Assembler in Verbose Mode
+39:137: MVI (22)  R1 (1)  2 (2)  ; osX Assembler in Verbose Mode
+40:143: MVI (22)  R0 (0)  2 (2)  ; osX Assembler in Verbose Mode
+41:149: SWI (20)  1 (1)   ; osX Assembler in Verbose Mode
+42:155: ; osX Assembler in Verbose Mode
+43:155: ADR (0)  R3 (3)  equal (2) ; osX Assembler in Verbose Mode
+44:161: LDRB (5)  R0 (0)  [R3] (3)     ; osX Assembler in Verbose Mode
+45:167: SWI (20)  2 (2)   ; osX Assembler in Verbose Mode
+46:173: ; osX Assembler in Verbose Mode
+47:173: MUL (18)  R0 (0)  R1 (1)  R2 (2)    ; osX Assembler in Verbose Mode
+48:179: SWI (20)  1 (1)   ; osX Assembler in Verbose Mode
+49:185: ; osX Assembler in Verbose Mode
+50:185: MVI (22)  R0 (0)  10 (10)  ; osX Assembler in Verbose Mode
+51:191: SWI (20)  2 (2)   ; osX Assembler in Verbose Mode
+52:197: ; osX Assembler in Verbose Mode
+53:197: ; osX Assembler in Verbose Mode
+54:197: SWI (20)  0 (0)   ; osX Assembler in Verbose Mode
+5 Labels Defined
+	plus  0
+	minus  1
+	equal  2
+	times  3
+	divide  4

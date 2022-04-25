@@ -1,0 +1,10 @@
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.deps.json
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.runtimeconfig.json
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.runtimeconfig.dev.json
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.dll
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.pdb
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\obj\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.csprojAssemblyReference.cache
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\obj\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.AssemblyInfoInputs.cache
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\obj\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.AssemblyInfo.cs
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\obj\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.dll
+C:\Users\10784099\Desktop\School\CS6510\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\obj\Debug\netcoreapp2.1\CS6510_VirtualMachine_SJB.pdb

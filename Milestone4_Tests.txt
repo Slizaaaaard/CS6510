@@ -1,0 +1,61 @@
+#Download and Extract Zip Folder
+
+##Create an osx file using producer.asm consumer.asm
+#Open Command prompt
+#Open to path C:\CS6510_VirtualMachine_SJB\CS6510_VirtualMachine_SJB\bin\Debug\netcoreapp2.1
+#In Command Prompt type: 
+osx.exe producer.asm 100
+osx.exe consumer.asm 100
+#Pass Case:
+#You should have 2 files named
+producer.osx
+consumer.osx
+
+###MileStone 4 Acceptance Testing
+################################################
+### Test 1 Shared buffer is properly created ###
+shm open Test R 5
+### Test 1 Acceptance Criteria ###
+Name is test
+Mode is r
+Size is 5
+################################################
+### Test 2 Shared buffer is properly destroyed ###
+shm unlink Test
+### Test 2 Acceptance Criteria ###
+test Unlinked
+################################################
+### Test 3 Semaphore is properly created ###
+sem init test
+### Test 3 Acceptance Criteria ###
+Semaphore test Created
+### Test 4 Produexecute producer.osx consumer.osx | shm_open test read 4 | sem_init test cer and consumer are properly communicated ###
+Load Program producer.osx
+Load Program consumer.osx
+Name is test
+Mode is read
+Size is 4
+Waiting for Consumer
+This
+Waiting for Producer
+Waiting for Consumer
+is
+Waiting for Producer
+Waiting for Consumer
+the
+Waiting for Producer
+Waiting for Consumer
+message
+Waiting for Producer
+Waiting for Consumer
+from
+Waiting for Producer
+Waiting for Consumer
+the
+Waiting for Producer
+Waiting for Consumer
+producer
+Waiting for Producer
+fin
+0RRRWWWWWWWWWWWWRRWWWWWWWWWWRRWWRRWWRRWWWWWWWWWWRRWWRRWWRRRRRRRRTTTTTTTTT
+1NNNRRRRRRRRRRRRWWRRRRRRRRRRWWRRWWRRWWRRRRRRRRRRWWRRWWRRWWWWWWWWRRRRRRRRR
